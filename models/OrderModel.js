@@ -21,6 +21,8 @@ const schema = new mongoose.Schema(
         'Ready',
         'Out-For-Delivery',
         'Completed',
+        'Cancelled',
+        'Refunded',
       ],
       default: 'Placed',
       trim: true,

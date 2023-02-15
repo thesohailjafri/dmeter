@@ -38,6 +38,8 @@ const schema = new mongoose.Schema(
     },
     position: {
       type: String,
+      enum: ['owner', 'manager', 'cook', 'staff'],
+      default: 'staff',
       lowercase: true,
       required: true,
       trim: true,
