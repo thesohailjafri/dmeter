@@ -48,13 +48,12 @@ export const AppTopbar = (props) => {
             accept: logoutHandler,
         });
     };
-    console.log({ userRestaurantName });
     return (
         <div className="layout-topbar">
             <ConfirmPopup />
             <Link to="/" className="layout-topbar-logo">
                 <img src={"/favicon_io/android-chrome-192x192.png"} alt="logo" />
-                <span>{userRestaurantName ? userRestaurantName : "Dmeter"}</span>
+                <span> {userRestaurantName ? userRestaurantName : "Dmeter"}</span>
             </Link>
 
             <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>

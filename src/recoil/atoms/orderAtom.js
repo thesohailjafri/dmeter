@@ -14,3 +14,18 @@ export const orderPaymentModeOptionsAtom = atom({
     key: "orderPaymentModeOptionsAtom",
     default: ["Cash", "Credit/Debit Card", "Online Transaction", "Other"],
 });
+
+export const orderStatusAllOptionsAtom = atom({
+    key: "orderStatusAllOptionsAtom",
+    default: ["Placed", "Processed", "Preparing", "Ready", "Completed", "Cancelled", "Refunded"],
+});
+
+export const orderStatusStaffOptionsAtom = atom({
+    key: "orderStatusStaffOptionsAtom",
+    default: ["Placed", "Processed", "Preparing", "Ready", "Out-For-Delivery", "Completed"],
+});
+
+export const orderStatusCookOptionsAtom = atom({
+    key: "orderStatusCookOptionsAtom",
+    default: ["Preparing", "Ready"],
+});

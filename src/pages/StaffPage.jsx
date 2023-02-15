@@ -175,7 +175,7 @@ export const StaffPage = () => {
                                             <div className="field col-12 md:col-6">
                                                 <label htmlFor="">Position</label>
                                                 <Dropdown
-                                                    options={["waiter", "receptionist", "cook"]}
+                                                    options={["cook", "staff"]}
                                                     disabled={newLoader}
                                                     value={staffDetails.member_details.position}
                                                     className={classNames({ "p-invalid block": !staffDetails.member_details.position && errors.length >= 1 })}

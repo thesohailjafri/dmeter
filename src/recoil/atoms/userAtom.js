@@ -49,3 +49,8 @@ export const userBranchIdAtom = atom({
     key: "userBranchIdAtom",
     default: "",
 });
+
+export const userPositionOptionsAtom = atom({
+    key: "userPositionOptionsAtom",
+    default: ["owner", "manager", "cook", "staff"],
+});

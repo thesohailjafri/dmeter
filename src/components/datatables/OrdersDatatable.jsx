@@ -1,9 +1,39 @@
-import React, { useRef, useState } from "react";
-import { Button, Column, DataTable, Tag } from "primereact";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Column, DataTable, Dropdown, Dialog } from "primereact";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
+import { userPositionAtom } from "../../recoil/atoms/userAtom";
+import { orderStatusAllOptionsAtom, orderStatusCookOptionsAtom, orderStatusStaffOptionsAtom } from "../../recoil/atoms/orderAtom";
+import { useRecoilValue } from "recoil";
 export const OrdersDatatable = ({ records, setRecords }) => {
+    const userPosition = useRecoilValue(userPositionAtom);
+    const orderStatusAllOptions = useRecoilValue(orderStatusAllOptionsAtom);
+    const orderStatusStaffOptions = useRecoilValue(orderStatusStaffOptionsAtom);
+    const orderStatusCookOptions = useRecoilValue(orderStatusCookOptionsAtom);
+    const [orderStatusOptions, setOrderStatusOptions] = useState([]);
+
+    useEffect(() => {
+        if (["manager", "owner"].includes(userPosition)) {
+            setOrderStatusOptions(orderStatusAllOptions);
+        }
+        if (userPosition === "cook") {
+            setOrderStatusOptions(orderStatusCookOptions);
+        }
+        if (userPosition === "staff") {
+            setOrderStatusOptions(orderStatusStaffOptions);
+        }
+    }, [userPosition, orderStatusAllOptions, orderStatusCookOptions, orderStatusStaffOptions]);
+
     const dt = useRef(null);
     const [deleteLoader, setDeleteLoader] = useState(false);
+
+    const orderStatusBody = (rd) => {
+        return (
+            <div>
+                <Dropdown className="w-full" options={orderStatusOptions} value={rd.order_status} />
+            </div>
+        );
+    };
+
     const handleRecordDelete = async (id) => {
         setDeleteLoader(true);
         // const res = await deleteMenuitem(id);
@@ -52,11 +82,12 @@ export const OrdersDatatable = ({ records, setRecords }) => {
                 <Column header="Cust. Phone" field="customer_phone" />
                 <Column header="Type" field="order_type" />
                 <Column header="Source" field="order_source" />
-                <Column header="Status" field="order_status" />
+                <Column header="Status" field="order_status" body={orderStatusBody} />
 
                 <Column header="Amount" field="grand_total" body={(rd) => `$${rd.grand_total}`} />
                 <Column header="Action" field="grand_total" body={actionBody} />
             </DataTable>
+            <Dialog visible={true}></Dialog>
         </div>
     );
 };
