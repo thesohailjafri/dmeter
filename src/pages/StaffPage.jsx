@@ -101,12 +101,12 @@ export const StaffPage = () => {
             setNewLoader(false);
             if (res.status === 201) {
                 setStaffDetails(staffDetails_empty);
-                setRecords((ps) => [...ps, res.data?.staffMember]);
+                setRecords((ps) => [res.data?.staffMember, ...ps]);
             }
         }
     };
 
-    const fetchStaffMembers = useCallback(async () => {
+    const fetchRecords = useCallback(async () => {
         if (!branchId) return;
         const res = await getBranchStaffApi(branchId);
         if (res) {
@@ -117,8 +117,8 @@ export const StaffPage = () => {
     }, [branchId]);
 
     useEffect(() => {
-        fetchStaffMembers();
-    }, [fetchStaffMembers]);
+        fetchRecords();
+    }, [fetchRecords]);
 
     useEffect(() => {
         const id = params?.branch_id;
@@ -138,7 +138,7 @@ export const StaffPage = () => {
                 <h3>{branch?.branch_name} Branch Staff</h3>
                 <TabView className="">
                     <TabPanel header="Existing Records" leftIcon="pi pi-th-large mr-2">
-                        <StaffDatatable records={records} setRecords={setRecords} allRecords={false} />
+                        <StaffDatatable records={records} setRecords={setRecords} allRecords={false} fetchRecords={fetchRecords} />
                     </TabPanel>
                     <TabPanel header="Add Record" leftIcon="pi pi-plus-circle mr-2">
                         <div className="mb-4">

@@ -8,7 +8,7 @@ export const AllStaffPage = () => {
     const [records, setRecords] = useState([]);
     const restaurantId = useRecoilValue(userRestaurantIdAtom);
 
-    const fetchStaffMembers = useCallback(async () => {
+    const fetchRecords = useCallback(async () => {
         if (!restaurantId) return;
         const res = await getAllStaffMembers();
         if (res) {
@@ -19,12 +19,12 @@ export const AllStaffPage = () => {
     }, [restaurantId]);
 
     useEffect(() => {
-        fetchStaffMembers();
-    }, [fetchStaffMembers]);
+        fetchRecords();
+    }, [fetchRecords]);
     return (
         <div className="card">
             <h3>All Staff Members</h3>
-            <StaffDatatable records={records} setRecords={setRecords} />
+            <StaffDatatable records={records} setRecords={setRecords} fetchRecords={fetchRecords} />
         </div>
     );
 };

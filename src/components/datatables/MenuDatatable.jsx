@@ -3,7 +3,7 @@ import { Button, Column, DataTable, Tag } from "primereact";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { deleteMenuitem } from "../../api";
 
-export const MenuDatatable = ({ records, setRecords }) => {
+export const MenuDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
     const dt = useRef(null);
     const [deleteLoader, setDeleteLoader] = useState(false);
     const menuThumbnailBody = (rd) => {
@@ -87,11 +87,25 @@ export const MenuDatatable = ({ records, setRecords }) => {
             </div>
         );
     };
+
+    const dtHeader = () => {
+        return (
+            <div className="flex flex-wrap justify-content-between align-items-center">
+                <div className="">Menu</div>
+                <div className="">
+                    <div>
+                        <Button icon="pi pi-refresh" onClick={fetchRecords} />
+                    </div>
+                </div>
+            </div>
+        );
+    };
     return (
         <div>
             <ConfirmPopup />
             <DataTable
                 ref={dt}
+                header={dtHeader}
                 value={records}
                 showGridlines
                 breakpoint="1600px"
@@ -103,6 +117,8 @@ export const MenuDatatable = ({ records, setRecords }) => {
                 rowsPerPageOptions={[10, 50, 100]}
                 removableSort
             >
+                <Column header="Branch" field="branch_id.branch_name" hidden={!allRecords} />
+
                 <Column header="Thumbnail Image" body={menuThumbnailBody} />
                 <Column header="Name" field="name" sortable />
                 <Column header="Category" field="category_id.name" sortable />

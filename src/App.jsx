@@ -26,6 +26,7 @@ import { MenuPage } from "./pages/MenuPage";
 import { MenuCategoryPage } from "./pages/MenuCategoryPage";
 import { AllOrdersPage } from "./pages/AllOrdersPage";
 import { OrdersPage } from "./pages/OrdersPage";
+import { AllMenuCategoryPage } from "./pages/AllMenuCategoryPage";
 export default function App() {
     return (
         <div className="">
@@ -52,6 +53,15 @@ export default function App() {
                     render={() => (
                         <AuthWrapper>
                             <AllStaffPage />
+                        </AuthWrapper>
+                    )}
+                />
+                <Route
+                    exact
+                    path="/menu/category"
+                    render={() => (
+                        <AuthWrapper>
+                            <AllMenuCategoryPage />
                         </AuthWrapper>
                     )}
                 />

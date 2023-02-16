@@ -102,7 +102,7 @@ export const MenuPage = () => {
         if (res) {
             setNewLoader(false);
             if (res.status === 201) {
-                setRecords((ps) => [...ps, res.data.record]);
+                setRecords((ps) => [res.data.record, ...ps]);
                 clearNewRecord();
             }
         }

@@ -39,6 +39,8 @@ export const OrdersPage = () => {
 
         product_category: "",
         quantity: "",
+        quantity_count: 1,
+
         temp_quantity: "",
 
         amount: 0,
@@ -132,6 +134,7 @@ export const OrdersPage = () => {
                 quantity: i.quantity,
                 amount: i.amount,
                 discount: i.discount,
+                quantity_count: i.quantity_count,
             };
             return p;
         });
@@ -141,7 +144,7 @@ export const OrdersPage = () => {
         if (res) {
             setNewLoader(false);
             if (res.status === 201) {
-                setRecords((ps) => [...ps, res.data.record]);
+                setRecords((ps) => [res.data.record, ...ps]);
                 clearNewRecord();
             }
         }
@@ -171,12 +174,15 @@ export const OrdersPage = () => {
         fetchMenu();
     }, [fetchMenu]);
 
-    const fetchOrders = useCallback(async () => {
+    const fetchRecords = useCallback(async () => {
         if (!restaurantId || !branch_id) return;
         const res = await getOrders({
             restaurant_id: restaurantId,
             branch_id: branch_id,
-            fields: "customer_name customer_phone order_type order_source order_note order_payment_source grand_total order_status",
+            fields: `customer_name customer_phone 
+						order_type order_source order_note 
+						order_payment_source grand_total 
+						order_status order_products order_delivery_charges`,
         });
         if (res) {
             if (res.status === 200) {
@@ -186,8 +192,8 @@ export const OrdersPage = () => {
     }, [restaurantId, branch_id]);
 
     useEffect(() => {
-        fetchOrders();
-    }, [fetchOrders]);
+        fetchRecords();
+    }, [fetchRecords]);
 
     useEffect(() => {
         document.title = branch?.branch_name + " Orders";
@@ -214,21 +220,24 @@ export const OrdersPage = () => {
                 <h3>{branch?.branch_name} Branch Orders</h3>
                 <TabView className="">
                     <TabPanel header="Existing Records" leftIcon="pi pi-th-large mr-2">
-                        <OrdersDatatable records={records} setRecords={setRecords} />
+                        <OrdersDatatable records={records} setRecords={setRecords} allRecords={false} fetchRecords={fetchRecords} />
                     </TabPanel>
                     <TabPanel header="Add Record" leftIcon="pi pi-plus-circle mr-2">
                         <div className="mb-4">
                             <div className="formgrid grid">
-                                <div className="col-12 xl:col-8">
+                                <div className="col-12 xl:col-9">
                                     <div className="card">
                                         <h6 className="text-center">Order Details</h6>
                                         <hr className="col-12" />
                                         <div className="p-fluid grid formgrid">
-                                            <div className="field col-3">
+                                            <div className="field col-2">
                                                 <label htmlFor="">Menu-Item</label>
                                             </div>
-                                            <div className="field col-3">
+                                            <div className="field col-2">
                                                 <label htmlFor="">Quantity</label>
+                                            </div>
+                                            <div className="field col-2">
+                                                <label htmlFor="">Count</label>
                                             </div>
                                             <div className="field col-2">
                                                 <label htmlFor="">Discount</label>
@@ -242,8 +251,9 @@ export const OrdersPage = () => {
                                             {newRecordOrderProducts.map((order_prod, idx) => {
                                                 return (
                                                     <>
-                                                        <div className="field col-3">
+                                                        <div className="field col-2">
                                                             <Dropdown
+                                                                tooltip={order_prod.product_name}
                                                                 options={menu}
                                                                 optionLabel="name"
                                                                 disabled={newLoader}
@@ -257,11 +267,11 @@ export const OrdersPage = () => {
                                                                     newRecordOrderProductsChangeHandler(idx, `product_id`, val._id);
                                                                 }}
                                                                 className={classNames({ "p-invalid": !order_prod.product_name && errors.length >= 1 })}
-                                                                placeholder="Select Item"
+                                                                placeholder="Item Name"
                                                             />
                                                             {errors.length >= 1 && !order_prod.product_name && <small className="p-error block">Please select menu item</small>}
                                                         </div>
-                                                        <div className="field col-3">
+                                                        <div className="field col-2">
                                                             <Dropdown
                                                                 options={order_prod.quantity_options}
                                                                 disabled={newLoader}
@@ -271,15 +281,27 @@ export const OrdersPage = () => {
                                                                     const val = e.value;
                                                                     newRecordOrderProductsChangeHandler(idx, `temp_quantity`, val);
                                                                     newRecordOrderProductsChangeHandler(idx, `quantity`, val.quantity);
-                                                                    newRecordOrderProductsChangeHandler(idx, `amount`, val.amount);
+                                                                    newRecordOrderProductsChangeHandler(idx, `amount`, val.amount * order_prod.quantity_count);
                                                                 }}
                                                                 className={classNames({ "p-invalid": !order_prod.quantity && errors.length >= 1 })}
-                                                                placeholder="Select Quantity"
+                                                                placeholder="Quantity"
                                                             />
                                                             {errors.length >= 1 && !order_prod.quantity && <small className="p-error block">Please select item quantity</small>}
                                                         </div>
                                                         <div className="field col-2">
-                                                            <InputNumber mode="currency" currency="INR" disabled={newLoader} value={order_prod.discount} onChange={(e) => newRecordOrderProductsChangeHandler(idx, `discount`, e.value)} placeholder="Enter Discount" />
+                                                            <InputNumber
+                                                                disabled={newLoader}
+                                                                min={1}
+                                                                value={order_prod.quantity_count}
+                                                                onChange={(e) => {
+                                                                    newRecordOrderProductsChangeHandler(idx, `quantity_count`, e.value);
+                                                                    newRecordOrderProductsChangeHandler(idx, `amount`, order_prod.temp_quantity.amount * e.value);
+                                                                }}
+                                                                placeholder="Count"
+                                                            />
+                                                        </div>
+                                                        <div className="field col-2">
+                                                            <InputNumber mode="currency" currency="INR" disabled={newLoader} value={order_prod.discount} onChange={(e) => newRecordOrderProductsChangeHandler(idx, `discount`, e.value)} placeholder="Discount" />
                                                         </div>
                                                         <div className="field col-2">
                                                             <InputNumber mode="currency" currency="INR" disabled value={order_prod.amount} placeholder="Select Item" />
@@ -315,7 +337,7 @@ export const OrdersPage = () => {
                                                     <Column header="Grand-Total" field="total" body={(rd) => <InputNumber disabled value={rd.total} mode="currency" currency="INR" />} />
                                                 </DataTable>
                                             </div>
-                                            <div className="field col-6 xl:col-4">
+                                            <div className="field col-4 xl:col-3">
                                                 <label htmlFor="">Order Type</label>
                                                 {orderTypeOptions.map((op) => {
                                                     return (
@@ -326,7 +348,7 @@ export const OrdersPage = () => {
                                                     );
                                                 })}
                                             </div>
-                                            <div className="field col-6 xl:col-4">
+                                            <div className="field col-4 xl:col-3">
                                                 <label htmlFor="">Order Source</label>
                                                 {orderSourceOptions.map((op) => {
                                                     return (
@@ -337,7 +359,7 @@ export const OrdersPage = () => {
                                                     );
                                                 })}
                                             </div>
-                                            <div className="field col-6 xl:col-4">
+                                            <div className="field col-4 xl:col-3">
                                                 <label htmlFor="">Payment Mode</label>
                                                 {orderPaymentModeOptions.map((op) => {
                                                     return (
@@ -348,7 +370,7 @@ export const OrdersPage = () => {
                                                     );
                                                 })}
                                             </div>
-                                            <div className="field col-12">
+                                            <div className="field col-12 xl:col-3">
                                                 <div className="field">
                                                     <label htmlFor="">Order Note (optional)</label>
                                                     <InputTextarea autoResize disabled={newLoader} value={newRecord.order_note} onChange={(e) => newRecordChangeHandler(`order_note`, e.target.value)} placeholder="Enter note if any" />
@@ -362,7 +384,7 @@ export const OrdersPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 xl:col-4">
+                                <div className="col-12 xl:col-3">
                                     <div className="card">
                                         <h6 className="text-center">Other Details</h6>
                                         <hr className="col-12" />
@@ -391,7 +413,7 @@ export const OrdersPage = () => {
                                             </div>
                                             <div className="field col-12">
                                                 <label htmlFor="">Order Address (optional)</label>
-                                                <InputText disabled={newLoader} value={newRecord.order_address} onChange={(e) => newRecordChangeHandler(`order_address`, e.target.value)} placeholder="Enter order address" />
+                                                <InputTextarea autoResize disabled={newLoader} value={newRecord.order_address} onChange={(e) => newRecordChangeHandler(`order_address`, e.target.value)} placeholder="Enter order address" />
                                             </div>
                                             <div className="field col-12">
                                                 <label htmlFor="">Order City (optional)</label>

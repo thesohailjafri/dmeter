@@ -11,7 +11,6 @@ import { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { userEmailAtom } from "../recoil/atoms/userAtom";
 import { useSetRecoilState } from "recoil";
-import delay from "../utils/delay";
 export const RegisterPage = () => {
     const history = useHistory();
     const setUserEmail = useSetRecoilState(userEmailAtom);

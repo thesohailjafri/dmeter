@@ -4,7 +4,7 @@ import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { userPositionAtom } from "../../recoil/atoms/userAtom";
 import { orderStatusAllOptionsAtom, orderStatusCookOptionsAtom, orderStatusStaffOptionsAtom } from "../../recoil/atoms/orderAtom";
 import { useRecoilValue } from "recoil";
-export const OrdersDatatable = ({ records, setRecords }) => {
+export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
     const userPosition = useRecoilValue(userPositionAtom);
     const orderStatusAllOptions = useRecoilValue(orderStatusAllOptionsAtom);
     const orderStatusStaffOptions = useRecoilValue(orderStatusStaffOptionsAtom);
@@ -62,14 +62,42 @@ export const OrdersDatatable = ({ records, setRecords }) => {
             </div>
         );
     };
+
+    const orderProductsBody = (rd) => {
+        const records = rd.order_products;
+        return (
+            <div className="">
+                <DataTable value={records}>
+                    <Column header="Name" field="product_name" />
+                    <Column header="Quantity" field="quantity" />
+                    <Column header="Count" field="quantity_count" />
+                    <Column header="Price" field="amount" body={(rd) => <>₹{rd.amount}</>} />
+                    <Column header="Discount" field="discount" body={(rd) => <>₹{rd.discount}</>} />
+                </DataTable>
+            </div>
+        );
+    };
+    const dtHeader = () => {
+        return (
+            <div className="flex flex-wrap justify-content-between align-items-center">
+                <div className="">Ordes</div>
+                <div className="">
+                    <div>
+                        <Button icon="pi pi-refresh" onClick={fetchRecords} />
+                    </div>
+                </div>
+            </div>
+        );
+    };
     return (
         <div>
             <ConfirmPopup />
             <DataTable
                 ref={dt}
+                header={dtHeader}
                 value={records}
                 showGridlines
-                // breakpoint="1600px"
+                breakpoint="1700px"
                 className="datatable-responsive"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
@@ -78,16 +106,19 @@ export const OrdersDatatable = ({ records, setRecords }) => {
                 rowsPerPageOptions={[10, 50, 100]}
                 removableSort
             >
+                <Column header="Branch" field="branch_id.branch_name" hidden={!allRecords} />
+
                 <Column header="Cust. Name" field="customer_name" />
                 <Column header="Cust. Phone" field="customer_phone" />
                 <Column header="Type" field="order_type" />
                 <Column header="Source" field="order_source" />
                 <Column header="Status" field="order_status" body={orderStatusBody} />
-
-                <Column header="Amount" field="grand_total" body={(rd) => `$${rd.grand_total}`} />
+                <Column header="Products" field="" body={orderProductsBody} />
+                <Column header="Delivery" field="order_delivery_charges" body={(rd) => `₹${rd.order_delivery_charges}`} />
+                <Column header="Amount" field="grand_total" body={(rd) => `₹${rd.grand_total}`} />
                 <Column header="Action" field="grand_total" body={actionBody} />
             </DataTable>
-            <Dialog visible={true}></Dialog>
+            <Dialog visible={false}></Dialog>
         </div>
     );
 };

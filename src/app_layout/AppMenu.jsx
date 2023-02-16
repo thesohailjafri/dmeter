@@ -136,27 +136,33 @@ export const AppMenu = (props) => {
             icon: "pi pi-fw pi-sitemap",
             items: [
                 {
-                    label: "Branches",
-                    icon: "pi pi-fw pi-bookmark",
-                    items: [],
-                },
-                {
                     label: "Add Branch",
                     icon: "pi pi-fw pi-plus-circle",
                     to: "/branch/add",
                 },
                 {
-                    label: "View All Orders",
+                    label: "Branches",
+                    icon: "pi pi-fw pi-bookmark",
+                    items: [],
+                },
+
+                {
+                    label: "All Orders",
                     icon: "pi pi-fw pi-box",
                     to: "/orders",
                 },
                 {
-                    label: "View All Staff",
+                    label: "All Staff",
                     icon: "pi pi-fw pi-users",
                     to: "/staff",
                 },
                 {
-                    label: "View All Menu",
+                    label: "All Menu Categories",
+                    icon: "pi pi-fw pi-list",
+                    to: "/menu/category",
+                },
+                {
+                    label: "All Menu",
                     icon: "pi pi-fw pi-list",
                     to: "/menu",
                 },
@@ -176,11 +182,6 @@ export const AppMenu = (props) => {
                             to: `/branch/orders/${item._id}`,
                         },
                         {
-                            label: "Manage Branch",
-                            icon: "pi pi-fw pi-home",
-                            to: `/branch/${item._id}`,
-                        },
-                        {
                             label: "Manage Staff",
                             icon: "pi pi-fw pi-users",
                             to: `/branch/staff/${item._id}`,
@@ -195,11 +196,16 @@ export const AppMenu = (props) => {
                             icon: "pi pi-fw pi-list",
                             to: `/branch/menu/${item._id}`,
                         },
+                        {
+                            label: "Manage Branch",
+                            icon: "pi pi-fw pi-home",
+                            to: `/branch/${item._id}`,
+                        },
                     ],
                 };
             });
             const _owner_menu = [...owner_menu];
-            _owner_menu[1].items[0].items = branchItems;
+            _owner_menu[1].items[1].items = branchItems;
             setMenu(_owner_menu);
         }
     }, [userPosition, branches]);

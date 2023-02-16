@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
-import { Button, Column, DataTable } from "primereact";
+import { Button, Column, DataTable, Tag } from "primereact";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
-import { deleteStaffMember } from "../../api";
+import { deleteMenuCategory } from "../../api";
 
-export const StaffDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
+export const MenuCategoryDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
     const dt = useRef(null);
     const [deleteLoader, setDeleteLoader] = useState(false);
+
     const handleRecordDelete = async (id) => {
         setDeleteLoader(true);
-        const res = await deleteStaffMember(id);
+        const res = await deleteMenuCategory(id);
         if (res) {
             setDeleteLoader(false);
             if (res.status === 200) {
@@ -38,7 +39,7 @@ export const StaffDatatable = ({ records, setRecords, allRecords = true, fetchRe
     const dtHeader = () => {
         return (
             <div className="flex flex-wrap justify-content-between align-items-center">
-                <div className="">Staff</div>
+                <div className="">Menu Categories</div>
                 <div className="">
                     <div>
                         <Button icon="pi pi-refresh" onClick={fetchRecords} />
@@ -52,24 +53,23 @@ export const StaffDatatable = ({ records, setRecords, allRecords = true, fetchRe
             <ConfirmPopup />
             <DataTable
                 ref={dt}
-                value={records}
-                rowHover
-                showGridlines
                 header={dtHeader}
+                value={records}
+                showGridlines
+                breakpoint="1600px"
                 className="datatable-responsive"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                 rows={10}
                 paginator
-                rowsPerPageOptions={[10, 50, 100]}
+                rowsPerPageOptions={[10, 50, 100, 250, 500]}
                 removableSort
             >
                 <Column header="Branch" field="branch_id.branch_name" hidden={!allRecords} />
-                <Column header="Position" field="position" sortable />
-                <Column header="Firstname" field="name.first" sortable />
-                <Column header="Lastname" field="name.last" sortable />
-                <Column header="Phone" field="phone" sortable />
-                <Column header="Email" field="email" sortable />
+
+                <Column header="Name" field="name" />
+                <Column header="Description" field="description" />
+
                 <Column header="Action" body={actionBody} />
             </DataTable>
         </div>

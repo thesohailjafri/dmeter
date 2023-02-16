@@ -14,7 +14,7 @@ export const AllMenuPage = () => {
         const res = await getMenu({
             restaurant_id: restaurantId,
 
-            fields: "diet name thumbnail prices alternateNames ingredients allergens",
+            fields: `diet name thumbnail prices alternateNames ingredients allergens branch_id`,
         });
         if (res) {
             if (res.status === 200) {

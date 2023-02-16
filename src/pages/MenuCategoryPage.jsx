@@ -12,6 +12,7 @@ import { Column, DataTable } from "primereact";
 import { deleteMenuCategory, getMenuCategories, postMenuCategory } from "../api";
 import { userRestaurantIdAtom } from "../recoil/atoms/userAtom";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
+import { MenuCategoryDatatable } from "../components/datatables/MenuCategoryDatatable";
 
 export const MenuCategoryPage = () => {
     const dt = useRef(null);
@@ -75,7 +76,7 @@ export const MenuCategoryPage = () => {
         document.title = branch?.branch_name + " Branch Menu Categories";
     }, [branch]);
 
-    const fetchMenu = useCallback(async () => {
+    const fetchRecords = useCallback(async () => {
         if (!restaurantId || !branch_id) return;
         const res = await getMenuCategories({
             restaurant_id: restaurantId,
@@ -90,36 +91,9 @@ export const MenuCategoryPage = () => {
     }, [restaurantId, branch_id]);
 
     useEffect(() => {
-        fetchMenu();
-    }, [fetchMenu]);
+        fetchRecords();
+    }, [fetchRecords]);
 
-    const handleRecordDelete = async (id) => {
-        setDeleteLoader(true);
-        const res = await deleteMenuCategory(id);
-        if (res) {
-            setDeleteLoader(false);
-            if (res.status === 200) {
-                setRecords((ps) => [...ps].filter((r) => r._id !== id));
-            }
-        }
-    };
-    const deleteRecordConfirm = (event, id) => {
-        confirmPopup({
-            target: event.currentTarget,
-            message: "Do you want to delete this record?",
-            icon: "pi pi-info-circle",
-            acceptClassName: "p-button-danger",
-            accept: () => handleRecordDelete(id),
-        });
-    };
-    const actionBody = (rd) => {
-        return (
-            <div className="flex gap-1">
-                <Button label="Edit" icon="pi pi-pencil" />
-                <Button disabled={deleteLoader} label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={(e) => deleteRecordConfirm(e, rd._id)} />
-            </div>
-        );
-    };
     return (
         <div className="">
             <ConfirmPopup />
@@ -127,24 +101,7 @@ export const MenuCategoryPage = () => {
                 <h3>{branch?.branch_name} Branch Menu Categories</h3>
                 <TabView className="">
                     <TabPanel header="Existing Records" leftIcon="pi pi-th-large mr-2">
-                        <DataTable
-                            ref={dt}
-                            value={records}
-                            showGridlines
-                            breakpoint="1600px"
-                            className="datatable-responsive"
-                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
-                            rows={10}
-                            paginator
-                            rowsPerPageOptions={[10, 50, 100, 250, 500]}
-                            removableSort
-                        >
-                            <Column header="Name" field="name" />
-                            <Column header="Description" field="description" />
-
-                            <Column header="Action" body={actionBody} />
-                        </DataTable>
+                        <MenuCategoryDatatable records={records} setRecords={setRecords} allRecords={false} fetchRecords={fetchRecords} />
                     </TabPanel>
                     <TabPanel header="Add Record" leftIcon="pi pi-plus-circle mr-2">
                         <div className="mb-4">
