@@ -2,54 +2,35 @@ import React, { useState } from 'react'
 import { MdShoppingBasket, MdAdd, MdLogout } from 'react-icons/md'
 import { motion } from 'framer-motion'
 
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import { app } from '../firebase.config'
-
 import Logo from '../img/logo.png'
 import Avatar from '../img/avatar.png'
 import { Link } from 'react-router-dom'
-import { useStateValue } from '../context/StateProvider'
-import { actionType } from '../context/reducer'
 
 const Header = () => {
-  const firebaseAuth = getAuth(app)
-  const provider = new GoogleAuthProvider()
-
-  const [{ user, cartShow, cartItems }, dispatch] = useStateValue()
-
   const [isMenu, setIsMenu] = useState(false)
-
+  const cartItems = []
+  const user = false
   const login = async () => {
-    if (!user) {
-      const {
-        user: { refreshToken, providerData },
-      } = await signInWithPopup(firebaseAuth, provider)
-      dispatch({
-        type: actionType.SET_USER,
-        user: providerData[0],
-      })
-      localStorage.setItem('user', JSON.stringify(providerData[0]))
-    } else {
-      setIsMenu(!isMenu)
-    }
+    // if (!user) {
+    //   const {
+    //     user: { refreshToken, providerData },
+    //   } = await signInWithPopup(firebaseAuth, provider)
+    //   dispatch({
+    //     type: actionType.SET_USER,
+    //     user: providerData[0],
+    //   })
+    //   localStorage.setItem('user', JSON.stringify(providerData[0]))
+    // } else {
+    //   setIsMenu(!isMenu)
+    // }
   }
 
   const logout = () => {
     setIsMenu(false)
     localStorage.clear()
-
-    dispatch({
-      type: actionType.SET_USER,
-      user: null,
-    })
   }
 
-  const showCart = () => {
-    dispatch({
-      type: actionType.SET_CART_SHOW,
-      cartShow: !cartShow,
-    })
-  }
+  const showCart = () => {}
 
   return (
     <header className="fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16 bg-primary">
@@ -57,7 +38,7 @@ const Header = () => {
       <div className="hidden md:flex w-full h-full items-center justify-between">
         <Link to={'/'} className="flex items-center gap-2">
           <img src={Logo} className="w-8 object-cover" alt="logo" />
-          <p className="text-headingColor text-xl font-bold"> City</p>
+          <p className="text-headingColor text-xl font-bold"> Dmeter</p>
         </Link>
 
         <div className="flex items-center gap-8">

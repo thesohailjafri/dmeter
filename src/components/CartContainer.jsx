@@ -1,41 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { RiRefreshFill } from "react-icons/ri";
+import React, { useEffect, useState } from 'react'
+import { MdOutlineKeyboardBackspace } from 'react-icons/md'
+import { RiRefreshFill } from 'react-icons/ri'
 
-import { motion } from "framer-motion";
-import { useStateValue } from "../context/StateProvider";
-import { actionType } from "../context/reducer";
-import EmptyCart from "../img/emptyCart.svg";
-import CartItem from "./CartItem";
+import { motion } from 'framer-motion'
+
+import EmptyCart from '../img/emptyCart.svg'
+import CartItem from './CartItem'
 
 const CartContainer = () => {
-  const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
-  const [flag, setFlag] = useState(1);
-  const [tot, setTot] = useState(0);
+  const [flag, setFlag] = useState(1)
+  const [tot, setTot] = useState(0)
+  const cartItems = []
+  const user = false
 
-  const showCart = () => {
-    dispatch({
-      type: actionType.SET_CART_SHOW,
-      cartShow: !cartShow,
-    });
-  };
+  const showCart = () => {}
 
-  useEffect(() => {
-    let totalPrice = cartItems.reduce(function (accumulator, item) {
-      return accumulator + item.qty * item.price;
-    }, 0);
-    setTot(totalPrice);
-    console.log(tot);
-  }, [tot, flag]);
-
-  const clearCart = () => {
-    dispatch({
-      type: actionType.SET_CARTITEMS,
-      cartItems: [],
-    });
-
-    localStorage.setItem("cartItems", JSON.stringify([]));
-  };
+  const clearCart = () => {}
 
   return (
     <motion.div
@@ -125,7 +105,7 @@ const CartContainer = () => {
         </div>
       )}
     </motion.div>
-  );
-};
+  )
+}
 
-export default CartContainer;
+export default CartContainer

@@ -1,18 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import HomeContainer from "./HomeContainer";
-import { motion } from "framer-motion";
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import RowContainer from "./RowContainer";
-import { useStateValue } from "../context/StateProvider";
-import MenuContainer from "./MenuContainer";
-import CartContainer from "./CartContainer";
+import React, { useEffect, useRef, useState } from 'react'
+import HomeContainer from './HomeContainer'
+import { motion } from 'framer-motion'
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+import RowContainer from './RowContainer'
+import MenuContainer from './MenuContainer'
+import CartContainer from './CartContainer'
 
 const MainContainer = () => {
-  const [{ foodItems, cartShow }, dispatch] = useStateValue();
-  const [scrollValue, setScrollValue] = useState(0);
-
-  useEffect(() => {}, [scrollValue, cartShow]);
-
+  const [scrollValue, setScrollValue] = useState(0)
+  const foodItems = []
+  const cartShow = false
   return (
     <div className="w-full h-auto flex flex-col items-center justify-center ">
       <HomeContainer />
@@ -43,7 +40,7 @@ const MainContainer = () => {
         <RowContainer
           scrollValue={scrollValue}
           flag={true}
-          data={foodItems?.filter((n) => n.category === "fruits")}
+          data={foodItems?.filter((n) => n.category === 'fruits')}
         />
       </section>
 
@@ -51,7 +48,7 @@ const MainContainer = () => {
 
       {cartShow && <CartContainer />}
     </div>
-  );
-};
+  )
+}
 
-export default MainContainer;
+export default MainContainer
