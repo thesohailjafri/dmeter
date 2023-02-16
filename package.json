@@ -1,5 +1,5 @@
 {
-    "name": "dmeter-frontend",
+    "name": "dmeter-admin",
     "version": "7.0.3-SNAPSHOT",
     "homepage": ".",
     "private": false,
@@ -27,8 +27,8 @@
         "react": "^18.2.0",
         "react-app-polyfill": "^3.0.0",
         "react-dom": "^18.2.0",
-        "react-quill": "^2.0.0",
         "react-router-dom": "^5.2.0",
+        "react-quill": "^2.0.0",
         "react-scripts": "^5.0.1",
         "react-transition-group": "^4.4.1",
         "recoil": "^0.7.3",

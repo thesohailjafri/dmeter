@@ -27,6 +27,10 @@ export const AllMenuPage = () => {
         fetchMenu();
     }, [fetchMenu]);
 
+    useEffect(() => {
+        document.title = "All Branch Menu";
+    }, []);
+
     return (
         <div className="card">
             <h3>All Menu Items</h3>

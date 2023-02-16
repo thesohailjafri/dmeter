@@ -129,7 +129,7 @@ export const AddBranchPage = () => {
             setSaveloaders(false);
             if (res.status === 201) {
                 setBranchDetails(branchDetails_empty);
-                setBranches((ps) => [...ps, res.data?.branch]);
+                setBranches((ps) => [res.data.branch, ...ps]);
             }
         }
     };
