@@ -84,7 +84,9 @@ const getBranches = async (req, res) => {
   if (!ifRestaurantExist) {
     throw new error.BadRequestError('Restaurant does not exist')
   }
-  const branches = await BranchModel.find({ restaurant_id }).select(fields)
+  const branches = await BranchModel.find({ restaurant_id })
+    .select(fields)
+    .sort('-updatedAt')
   res.status(StatusCodes.OK).json({
     branches,
   })

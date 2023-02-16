@@ -73,6 +73,7 @@ const getMenu = async (req, res) => {
     .select(fields)
     .populate({ path: 'category_id', select: 'name' })
     .populate({ path: 'branch_id', select: 'branch_name' })
+    .sort('-updatedAt')
   res.status(StatusCodes.OK).json({
     restaurant_id,
     branch_id,
@@ -161,6 +162,7 @@ const getMenuCategories = async (req, res) => {
   const records = await CategoryModel.find(filter)
     .select(fields)
     .populate({ path: 'branch_id', select: 'branch_name' })
+    .sort('-updatedAt')
 
   res.status(StatusCodes.OK).json({
     restaurant_id,

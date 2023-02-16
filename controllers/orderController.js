@@ -71,7 +71,10 @@ const getOrders = async (req, res) => {
   if (restaurant_id) filter.restaurant_id = restaurant_id
   if (branch_id) filter.branch_id = branch_id
 
-  const records = await OrderModel.find(filter).select(fields)
+  const records = await OrderModel.find(filter)
+    .select(fields)
+    .populate('branch_id')
+    .sort('-updatedAt')
 
   res.status(StatusCodes.OK).json({
     records,

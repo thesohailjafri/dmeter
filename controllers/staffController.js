@@ -88,7 +88,8 @@ const getAllStaffMembers = async (req, res) => {
     .select({
       password: 0,
     })
-    .populate({ path: 'branch_id', select: 'branch_name' })
+    .populate('branch_id')
+    .sort('-updatedAt')
 
   res.status(StatusCodes.OK).json({
     staff,

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { isMobilePhone } = require('validator')
 
 const schema = new mongoose.Schema(
   {
@@ -11,6 +12,7 @@ const schema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
+      validate: [isMobilePhone, 'Invalid phone number'],
     },
     order_status: {
       type: String,
@@ -89,6 +91,10 @@ const schema = new mongoose.Schema(
           type: String,
           trim: true,
           default: '',
+        },
+        quantity_count: {
+          type: Number,
+          default: 1,
         },
         amount: {
           type: Number,
