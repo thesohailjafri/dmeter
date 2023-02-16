@@ -151,12 +151,9 @@ const postMenuCategory = async (req, res) => {
 }
 
 const getMenuCategories = async (req, res) => {
-  let { fields, branch_id, restaurant_id } = req.query
-  if (!restaurant_id) {
-    throw new error.BadRequestError('Restaurant id is requried')
-  }
+  let { fields, branch_id } = req.query
+
   const filter = {}
-  if (restaurant_id) filter.restaurant_id = restaurant_id
   if (branch_id) filter.branch_id = branch_id
 
   const records = await CategoryModel.find(filter)
@@ -165,7 +162,6 @@ const getMenuCategories = async (req, res) => {
     .sort('-updatedAt')
 
   res.status(StatusCodes.OK).json({
-    restaurant_id,
     branch_id,
     fields,
     records,

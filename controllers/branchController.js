@@ -8,6 +8,10 @@ const BranchModel = require('../models/BranchModel')
 const UserModel = require('../models/UserModel')
 const BranchAddressModel = require('../models/BranchAddressModel')
 const AddressModel = require('../models/AddressModel')
+const shortid = require('shortid')
+shortid.characters(
+  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@',
+)
 
 const registerBranch = async (req, res) => {
   const { branch, restaurant_id } = req.body
@@ -53,8 +57,19 @@ const registerBranch = async (req, res) => {
     address: manager_address,
     entity: 'manager',
   })
+  const short_id = shortid.generate()
+  const resturant = await RestaurantModel.findById(restaurant_id).select(
+    'restaurant_name',
+  )
+  const branch_slug =
+    `${resturant.restaurant_name}-${branch_name}-${short_id}`.replaceAll(
+      ' ',
+      '_',
+    )
   // save branch
   const _branch = await BranchModel.create({
+    short_id,
+    branch_slug,
     branch_name,
     restaurant_id,
     branch_address: _branch_address._id,
@@ -142,9 +157,27 @@ const getBranchMenuitems = async (req, res) => {
   })
 }
 
+const getBranchUsingSlug = async (req, res) => {
+  const { slug: branch_slug } = req.params
+  if (!branch_slug) {
+    throw new error.BadRequestError('slug is required')
+  }
+  const branch = await BranchModel.findOne({ branch_slug }).populate(
+    'restaurant_id',
+  )
+  if (!branch) {
+    throw new error.NotFoundError('Branch not found')
+  }
+
+  res.status(StatusCodes.OK).json({
+    branch,
+  })
+}
+
 module.exports = {
   registerBranch,
   getBranches,
   getBranch,
   getBranchMenuitems,
+  getBranchUsingSlug,
 }

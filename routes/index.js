@@ -14,7 +14,7 @@ const apiRouter = (app) => {
   app.use('/api/restaurant/', restaurantRouter)
   app.use('/api/menu/', menuRouter)
   app.use('/api/order/', orderRouter)
-  app.use('/api/branch/', authMiddleware, branchRouter)
+  app.use('/api/branch/', branchRouter)
   app.use('/api/staff/', authMiddleware, staffRouter)
 
   // post m.w

@@ -4,6 +4,10 @@ const RestaurantModel = require('../models/RestaurantModel')
 const { createTokenUser } = require('../helpers/jwt/generate')
 const { addAddress } = require('../helpers/utils/AddAddress')
 const { addUser } = require('../helpers/utils/AddUser')
+const shortid = require('shortid')
+shortid.characters(
+  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@',
+)
 
 const registerRestaurant = async (req, res) => {
   // take restaurant details
@@ -20,7 +24,11 @@ const registerRestaurant = async (req, res) => {
     entity: 'restaurant',
   })
   // save restaurant details
+  const short_id = shortid.generate()
+  const restaurant_slug = `${restaurant_name}-${short_id}`.replaceAll(' ', '_')
   const restaurant = await RestaurantModel.create({
+    short_id,
+    restaurant_slug,
     restaurant_name,
     restaurant_address: _restaurant_address._id,
   })

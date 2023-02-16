@@ -2,6 +2,14 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
+    short_id: {
+      type: String,
+      unique: true,
+    },
+    restaurant_name: {
+      type: String,
+      unique: true,
+    },
     restaurant_name: {
       type: String,
       required: true,
