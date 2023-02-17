@@ -1,4 +1,4 @@
 import { getBranchUsingSlugApi } from './branchApi'
-import { getMenuCategories } from './menuApi'
+import { getMenuCategories, getMenu } from './menuApi'
 
-export { getBranchUsingSlugApi, getMenuCategories }
+export { getBranchUsingSlugApi, getMenuCategories, getMenu }

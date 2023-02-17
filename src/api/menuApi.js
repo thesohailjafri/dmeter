@@ -8,3 +8,11 @@ export const getMenuCategories = async (payload) => {
     return error.response
   }
 }
+
+export const getMenu = async (payload) => {
+  try {
+    return await axios.get(endpoints.menu.index, { params: payload })
+  } catch (error) {
+    return error.response
+  }
+}
