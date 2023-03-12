@@ -7,6 +7,11 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    bestseller: {
+      type: Boolean,
+      default: false,
+    },
+
     description: {
       type: String,
       trim: true,

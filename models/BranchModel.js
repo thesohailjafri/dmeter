@@ -6,11 +6,20 @@ const schema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    delivery: {
+      type: Boolean,
+      default: false,
+    },
     branch_slug: {
       type: String,
       unique: true,
     },
     branch_name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    branch_description: {
       type: String,
       required: true,
       trim: true,

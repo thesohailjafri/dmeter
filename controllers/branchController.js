@@ -46,8 +46,21 @@ const registerBranch = async (req, res) => {
     throw new error.BadRequestError('Branch name already exist')
   }
 
-  const { branch_name, branch_address, manager, manager_address } = branch
-  if (!branch_name || !branch_address || !manager || !manager_address) {
+  const {
+    branch_name,
+    branch_description,
+    delivery,
+    branch_address,
+    manager,
+    manager_address,
+  } = branch
+  if (
+    !branch_name ||
+    !branch_description ||
+    !branch_address ||
+    !manager ||
+    !manager_address
+  ) {
     throw new error.BadRequestError('Incomplete branche details')
   }
   // add branch address
@@ -71,6 +84,8 @@ const registerBranch = async (req, res) => {
     short_id,
     branch_slug,
     branch_name,
+    delivery,
+    branch_description,
     restaurant_id,
     branch_address: _branch_address._id,
   })
