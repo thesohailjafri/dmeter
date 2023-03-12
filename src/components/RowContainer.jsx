@@ -21,59 +21,52 @@ const RowContainer = ({ flag, data, scrollValue }) => {
   }, [items])
 
   return (
-    <div
-      ref={rowContainer}
-      className={`w-full  my-12 scroll-smooth  ${
-        flag
-          ? 'overflow-x-scroll scrollbar-none'
-          : 'overflow-x-hidden flex-wrap justify-center'
-      }`}
-    >
+    <div ref={rowContainer} className="w-full my-12 scroll-smooth ">
       {data && data.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mx-auto">
+        <div className="container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6 mx-auto">
           {data.map((item) => (
-            <div key={item?.id} className="bg-cardOverlay rounded-lg p-4">
-              {/* <motion.div
-                className="w-full h-full object-contain"
-                // whileHover={{ scale: 1.2 }}
-              > */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              key={item?.id}
+              className="p-4  bg-red-100 backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
+            >
               <img
                 src={
                   'https://res.cloudinary.com/dhvfvo2yb/image/upload/v1664997220/' +
                   item?.thumbnail
                 }
                 alt=""
-                className="w-full h-auto rounded-lg overflow-hidden"
+                className="rounded-lg overflow-hiddens"
               />
-              {/* </motion.div> */}
 
-              <div className="w-full flex flex-col items-end justify-end mt-3">
-                <p className="text-textColor font-semibold text-base md:text-lg">
+              <div className="">
+                <h6 className="text-base lg:text-xl font-semibold text-textColor mt-2 lg:mt-4">
                   {item?.name}
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  {item?.category_id?.name}
-                </p>
-                <div className="flex items-center gap-8">
-                  <p className="text-lg text-headingColor font-semibold">
-                    {item?.prices &&
-                      item?.prices.map((price, idx) => {
-                        return (
-                          <div>
-                            <span className="text-sm text-red-500">₹</span>{' '}
-                            {price?.amount}
-                          </div>
-                        )
-                      })}
-                  </p>
+                </h6>
+                <p className="text-sm opacity-75">{item?.category_id?.name}</p>
+                <div className="mt-2 flex flex-col gap-2 justify-center">
+                  {item?.prices &&
+                    item?.prices.map((price, idx) => {
+                      return (
+                        <div className="flex justify-between">
+                          <span>{price?.quantity}</span>
+                          <span className="">₹{price?.amount}</span>
+                          <span>
+                            <button className="cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-6 h-6 rounded m-0 text-white">
+                              +
+                            </button>
+                          </span>
+                        </div>
+                      )
+                    })}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       ) : (
         <div className="w-full flex flex-col items-center justify-center">
-          <img src={NotFound} className="h-340" />
+          <img alt='Not Found' src={NotFound} className="h-340" />
           <p className="text-xl text-headingColor font-semibold my-2">
             Items Not Available
           </p>

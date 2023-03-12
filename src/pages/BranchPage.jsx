@@ -54,7 +54,7 @@ const BranchPage = () => {
   }, [branch])
 
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center ">
+    <div className="h-auto flex flex-col items-center justify-center ">
       <section
         className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full "
         id="home"
@@ -74,7 +74,7 @@ const BranchPage = () => {
           </div>
 
           <p className="text-[2.5rem] lg:text-[4.5rem] font-bold tracking-wide text-headingColor">
-            {branch?.restaurant_id?.restaurant_name || 'Restaurant'}(
+            {branch?.restaurant_id?.restaurant_name || 'Restaurant'} (
             <span className="text-orange-600 text-[3rem] lg:text-[5rem]">
               {branch?.branch_name || 'Branch'}
             </span>
@@ -103,12 +103,12 @@ const BranchPage = () => {
             alt="hero-bg"
           />
 
-          <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center lg:px-32  py-4 gap-4 flex-wrap">
+          <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center py-4 gap-4 flex-wrap">
             {heroData &&
               heroData.map((n) => (
                 <div
                   key={n.id}
-                  className="  lg:w-190  p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col items-center justify-center drop-shadow-lg"
+                  className="  xl:w-190  p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col items-center justify-center drop-shadow-lg"
                 >
                   <img
                     src={n.imageSrc}
@@ -124,7 +124,7 @@ const BranchPage = () => {
                   </p>
 
                   <p className="text-sm font-semibold text-headingColor">
-                    <span className="text-xs text-red-600">$</span> {n.price}
+                    <span className="text-xs text-red-600">₹</span> {n.price}
                   </p>
                 </div>
               ))}

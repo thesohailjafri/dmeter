@@ -41,7 +41,7 @@ const MenuContainer = ({ categories }) => {
                 key={_category._id}
                 className={`group ${
                   category._id === _category._id ? 'bg-cartNumBg' : 'bg-card'
-                } w-24 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg `}
+                } w-28 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg `}
                 onClick={() => setCategory(_category)}
               >
                 <div
