@@ -33,7 +33,7 @@ const MenuContainer = ({ categories }) => {
           Menu
         </p>
 
-        <div className="w-full flex items-center justify-start lg:justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
+        <div className="w-full flex flex-wrap items-center justify-start lg:justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
           {categories &&
             categories.map((_category) => (
               <motion.div

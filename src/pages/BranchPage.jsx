@@ -96,7 +96,7 @@ const BranchPage = () => {
             Open Cart
           </button>
         </div>
-        <div className="py-2 flex-1 flex items-center relative">
+        <div className="hidden py-2 flex-1 md:flex items-center relative">
           <img
             src={HeroBg}
             className=" ml-auto h-420 w-full lg:w-auto lg:h-650"
