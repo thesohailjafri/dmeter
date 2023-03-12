@@ -200,7 +200,7 @@ export const MenuPage = () => {
         fetchMenu();
         fetchMenuCategories();
     }, [fetchMenu, fetchMenuCategories]);
-
+    // TODO add bestseller
     return (
         <div className="">
             <ConfirmPopup />

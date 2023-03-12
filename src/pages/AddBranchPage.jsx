@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Password } from "primereact/password";
+import { ToggleButton } from "primereact/togglebutton";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import set from "lodash/set";
@@ -18,6 +19,8 @@ export const AddBranchPage = () => {
     const restaurant_id = useRecoilValue(userRestaurantIdAtom);
     const branchDetails_empty = {
         branch_name: "",
+        branch_description: "",
+        delivery: true,
         branch_address: {
             addressline: "",
             phone: ["", ""],
@@ -55,6 +58,9 @@ export const AddBranchPage = () => {
         let _errors = [];
         if (!branchDetails.branch_name) {
             _errors.push("Branch name is required");
+        }
+        if (!branchDetails.branch_description) {
+            _errors.push("Branch description is required");
         }
         // branch_address
         if (!branchDetails.branch_address.addressline) {
@@ -280,10 +286,10 @@ export const AddBranchPage = () => {
                     </div>
                     <div className="col-12 xl:col-6">
                         <div className="card h-full">
-                            <h6 className="text-center">Branch Address</h6>
+                            <h6 className="text-center">Branch Details</h6>
                             <hr className="col-12" />
                             <div className="p-fluid formgrid grid">
-                                <div className="field col-12">
+                                <div className="field col-12 lg:col-8">
                                     <label htmlFor="">Branch Name</label>
                                     <InputText
                                         disabled={saveloaders}
@@ -291,6 +297,21 @@ export const AddBranchPage = () => {
                                         className={classNames({ "p-invalid block": !branchDetails.branch_name && errors.length >= 1 })}
                                         onChange={(e) => branchDetailsChangeHandler(`branch_name`, e.target.value)}
                                         placeholder="Enter branch name"
+                                    />
+                                    {errors.length >= 1 && !branchDetails.branch_name && <small className="p-error block">Please enter branch name.</small>}
+                                </div>
+                                <div className="field col-12 lg:col-4">
+                                    <label htmlFor="">Home Delivery</label>
+                                    <ToggleButton onLabel="Yes" offLabel="No" onIcon="pi pi-check" offIcon="pi pi-times" checked={branchDetails.delivery} onChange={(e) => branchDetailsChangeHandler(`delivery`, e.value)} />
+                                </div>
+                                <div className="field col-12">
+                                    <label htmlFor="">Branch Description</label>
+                                    <InputTextarea
+                                        disabled={saveloaders}
+                                        value={branchDetails.branch_description}
+                                        className={classNames({ "p-invalid block": !branchDetails.branch_description && errors.length >= 1 })}
+                                        onChange={(e) => branchDetailsChangeHandler(`branch_description`, e.target.value)}
+                                        placeholder="Enter branch description"
                                     />
                                     {errors.length >= 1 && !branchDetails.branch_name && <small className="p-error block">Please enter branch name.</small>}
                                 </div>
