@@ -6,7 +6,7 @@ import Logo from '../img/logo.png'
 import Avatar from '../img/avatar.png'
 import { Link } from 'react-router-dom'
 
-const Header = () => {
+const Header = ({ homeUrl, menuUrl, aboutUsUrl, orderUrl }) => {
   const [isMenu, setIsMenu] = useState(false)
   const cartItems = []
   const user = false
@@ -48,18 +48,26 @@ const Header = () => {
             exit={{ opacity: 0, x: 200 }}
             className="flex items-center gap-24 "
           >
-            <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              Home
-            </li>
-            <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              Menu
-            </li>
-            <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              About Us
-            </li>
-            <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              Service
-            </li>
+            <Link to={homeUrl}>
+              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                Home
+              </li>
+            </Link>
+            <Link to={menuUrl}>
+              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                Menu
+              </li>
+            </Link>
+            <Link to={orderUrl}>
+              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                Orders
+              </li>
+            </Link>
+            <Link to={aboutUsUrl}>
+              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                About Us
+              </li>
+            </Link>
           </motion.ul>
 
           <div

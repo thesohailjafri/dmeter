@@ -1,1 +1,5 @@
-export { default as BranchPage } from './BranchPage'
+export { default as BranchPage } from './branch/BranchPage'
+export { default as BranchMenuPage } from './branch/BranchMenuPage'
+export { default as BranchOrdersPage } from './branch/BranchOrdersPage'
+export { default as BranchAboutUsPage } from './branch/BranchAboutUsPage'
+export { default as NotFoundPage } from './NotFoundPage'
