@@ -3,7 +3,7 @@ import { MdShoppingBasket } from 'react-icons/md'
 import { motion } from 'framer-motion'
 import NotFound from '../img/NotFound.svg'
 
-const RowContainer = ({ flag, data, scrollValue }) => {
+const RowContainer = ({ flag, menuItems, scrollValue }) => {
   const rowContainer = useRef()
   const cartItems = []
   const [items, setItems] = useState([])
@@ -22,9 +22,9 @@ const RowContainer = ({ flag, data, scrollValue }) => {
 
   return (
     <div ref={rowContainer} className="w-full my-12 scroll-smooth ">
-      {data && data.length > 0 ? (
+      {menuItems && menuItems.length > 0 ? (
         <div className="container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6 mx-auto">
-          {data.map((item) => (
+          {menuItems.map((item) => (
             <motion.div
               whileHover={{ scale: 1.05 }}
               key={item?.id}
@@ -66,7 +66,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
         </div>
       ) : (
         <div className="w-full flex flex-col items-center justify-center">
-          <img alt='Not Found' src={NotFound} className="h-340" />
+          <img alt="Not Found" src={NotFound} className="h-340" />
           <p className="text-xl text-headingColor font-semibold my-2">
             Items Not Available
           </p>
