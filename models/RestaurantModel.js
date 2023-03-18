@@ -8,12 +8,17 @@ const schema = new mongoose.Schema(
     },
     restaurant_name: {
       type: String,
-      unique: true,
+      required: true,
+      trim: true,
     },
-    restaurant_name: {
+    restaurant_description: {
       type: String,
       required: true,
       trim: true,
+    },
+    restaurant_image_url: {
+      type: String,
+      required: true,
     },
     restaurant_address: {
       type: mongoose.Schema.ObjectId,
