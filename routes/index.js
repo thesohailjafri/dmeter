@@ -7,10 +7,12 @@ const notFoundMiddleware = require('../middlewares/notFoundMiddleware')
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware')
 const authMiddleware = require('../middlewares/authMiddleware')
 const orderRouter = require('./orderRouter')
+const searchRouter = require('./searchRouter')
 
 const apiRouter = (app) => {
   app.get('/', (_, res) => res.send('Dmeter'))
   app.use('/api/auth/', authRouter)
+  app.use('/api/search/', searchRouter)
   app.use('/api/restaurant/', restaurantRouter)
   app.use('/api/menu/', menuRouter)
   app.use('/api/order/', orderRouter)

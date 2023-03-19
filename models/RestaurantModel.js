@@ -6,6 +6,10 @@ const schema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    restaurant_slug: {
+      type: String,
+      unique: true,
+    },
     restaurant_name: {
       type: String,
       required: true,
