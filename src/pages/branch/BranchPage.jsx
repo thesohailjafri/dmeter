@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Header, HomeContainer, MenuContainer } from '../../components'
+import { BranchHeader, HomeContainer, MenuContainer } from '../../components'
 import { useParams } from 'react-router-dom'
 import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
 import HeroBg from '../../img/heroBg.png'
@@ -78,7 +78,7 @@ const BranchPage = () => {
 
   return (
     <div className="">
-      <Header
+      <BranchHeader
         homeUrl={`/branch/${branch_slug}`}
         menuUrl={`/menu/${branch_slug}`}
         aboutUsUrl={`/about/${branch_slug}`}
@@ -212,7 +212,7 @@ const BranchPage = () => {
             <div className="w-full">
               <div ref={rowContainer} className="w-full my-12 scroll-smooth ">
                 {menuItems && menuItems.length > 0 ? (
-                  <div className="container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6 mx-auto">
+                  <div className="container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mx-auto">
                     {menuItems.map((item) => (
                       <motion.div
                         whileHover={{ scale: 1.05 }}

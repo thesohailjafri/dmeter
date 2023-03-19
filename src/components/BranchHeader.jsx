@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdShoppingBasket, MdAdd, MdLogout } from 'react-icons/md'
 import { motion } from 'framer-motion'
 
 import Logo from '../img/logo.png'
 import Avatar from '../img/avatar.png'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import classNames from 'classnames'
 
 const Header = ({ homeUrl, menuUrl, aboutUsUrl, orderUrl }) => {
+  const location = useLocation()
+  const [page, setPage] = useState('')
   const [isMenu, setIsMenu] = useState(false)
   const cartItems = []
   const user = false
@@ -32,6 +35,12 @@ const Header = ({ homeUrl, menuUrl, aboutUsUrl, orderUrl }) => {
 
   const showCart = () => {}
 
+  useEffect(() => {
+    if (!location) return
+    const p = location.pathname.split('/')[1]
+    setPage(p)
+  }, [location])
+
   return (
     <header className="fixed top-0 left-0 z-50 w-screen p-3 px-4 md:p-6 md:px-16 bg-primary">
       {/* desktop & tablet */}
@@ -46,25 +55,57 @@ const Header = ({ homeUrl, menuUrl, aboutUsUrl, orderUrl }) => {
             initial={{ opacity: 0, x: 200 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 200 }}
-            className="flex items-center gap-24 "
+            className="flex items-center gap-8 lg:gap-16 xl:gap-24 "
           >
             <Link to={homeUrl}>
-              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-                Home
+              <li
+                className={classNames(
+                  'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                  {
+                    'underline underline-offset-8 decoration-orange-400 decoration-4':
+                      page === 'branch',
+                  },
+                )}
+              >
+                Branch
               </li>
             </Link>
             <Link to={menuUrl}>
-              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+              <li
+                className={classNames(
+                  'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                  {
+                    'underline underline-offset-8 decoration-orange-400 decoration-4':
+                      page === 'menu',
+                  },
+                )}
+              >
                 Menu
               </li>
             </Link>
             <Link to={orderUrl}>
-              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+              <li
+                className={classNames(
+                  'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                  {
+                    'underline underline-offset-8 decoration-orange-400 decoration-4':
+                      page === 'orders',
+                  },
+                )}
+              >
                 Orders
               </li>
             </Link>
             <Link to={aboutUsUrl}>
-              <li className="text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+              <li
+                className={classNames(
+                  'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                  {
+                    'underline underline-offset-8 decoration-orange-400 decoration-4':
+                      page === 'about',
+                  },
+                )}
+              >
                 About Us
               </li>
             </Link>
