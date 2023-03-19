@@ -233,15 +233,15 @@ export const MenuPage = () => {
                                             </div>
                                             <div className="field col-12 xl:col-6">
                                                 <label htmlFor="">Alternate Names (optional)</label>
-                                                <Chips tooltip="Press enter to save value" disabled={newLoader} value={newRecord.alternateNames} onChange={(e) => newRecordChangeHandler("alternateNames", e.value)} placeholder="Enter Alternate Names"></Chips>
+                                                <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.alternateNames} onChange={(e) => newRecordChangeHandler("alternateNames", e.value)} placeholder="Enter Alternate Names"></Chips>
                                             </div>
                                             <div className="field col-12 xl:col-6">
                                                 <label htmlFor="">Ingredients (optional)</label>
-                                                <Chips tooltip="Press enter to save value" disabled={newLoader} value={newRecord.ingredients} onChange={(e) => newRecordChangeHandler("ingredients", e.value)} placeholder="Enter Ingredients"></Chips>
+                                                <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.ingredients} onChange={(e) => newRecordChangeHandler("ingredients", e.value)} placeholder="Enter Ingredients"></Chips>
                                             </div>
                                             <div className="field col-12 xl:col-6">
                                                 <label htmlFor="">Allergens (optional)</label>
-                                                <Chips tooltip="Press enter to save value" disabled={newLoader} value={newRecord.allergens} onChange={(e) => newRecordChangeHandler("allergens", e.value)} placeholder="Enter Allergens"></Chips>
+                                                <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.allergens} onChange={(e) => newRecordChangeHandler("allergens", e.value)} placeholder="Enter Allergens"></Chips>
                                             </div>
                                             <div className="field col-12 mb-0">
                                                 <label htmlFor="">Diet</label>
