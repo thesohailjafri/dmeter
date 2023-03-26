@@ -23,8 +23,12 @@ const authCustomerMiddleware = async (req, _, next) => {
   if (!bearerHeader || bearerHeader.split(' ')[0] !== 'Bearer') {
     throw new error.UnauthorizedError('No token provided')
   }
+
   const bearer = bearerHeader.split(' ')
   const bearerToken = bearer[1]
+  if (!bearerToken || bearerToken === 'null') {
+    throw new error.BadRequestError()
+  }
 
   const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET)
   req.customer = { ...createTokenCustomer(decoded) }

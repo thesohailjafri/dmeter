@@ -48,9 +48,7 @@ const signinCustomer = async (req, res) => {
   if (!phone || !password) {
     throw new error.BadRequestError('Please provide phone and password')
   }
-  const customer = await UserModel.findOne({ phone }).select({
-    phone: 1,
-  })
+  const customer = await CustomerModel.findOne({ phone })
   if (!customer) {
     throw new error.BadRequestError('Account do not exist')
   }
@@ -91,7 +89,7 @@ const signupCustomer = async (req, res) => {
     phone,
   })
   res.status(StatusCodes.OK).json({
-    msg: 'Registration Successful',
+    msg: 'Registration successful,',
     customer,
   })
 }
