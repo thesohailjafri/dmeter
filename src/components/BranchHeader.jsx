@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MdShoppingBasket, MdAdd, MdLogout } from 'react-icons/md'
+import { MdShoppingBasket, MdAdd, MdLogout, MdLogin } from 'react-icons/md'
 import { FaRegUser } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
@@ -8,9 +8,20 @@ import Avatar from '../img/avatar.png'
 import { Link, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import CartContainer from './CartContainer'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { showCartAtom } from '../recoil/atoms/cartAtom'
 import LoginCardOverlay from './SigninCardOverlay'
+import {
+  customerEmailAtom,
+  customerFirstnameAtom,
+  customerIdAtom,
+  customerLastnameAtom,
+  customerPhoneAtom,
+} from '../recoil/atoms/customerAtom'
+
+import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
+import { Dialog } from '@headlessui/react'
+import { toast } from 'react-toastify'
 
 const Header = ({
   restaurantName,
@@ -43,7 +54,15 @@ const Header = ({
       url: aboutUsUrl,
     },
   ]
-  const [showCart, setShowCart] = useRecoilState(showCartAtom)
+  const setCustomerFirstname = useSetRecoilState(customerFirstnameAtom)
+  const setCustomerLastname = useSetRecoilState(customerLastnameAtom)
+  const setCustomerEmail = useSetRecoilState(customerEmailAtom)
+  const setCustomerPhone = useSetRecoilState(customerPhoneAtom)
+  const setIsOpenLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
+
+  const [customerID, setCustomerId] = useRecoilState(customerIdAtom)
+
+  const setShowCart = useSetRecoilState(showCartAtom)
   const [page, setPage] = useState('')
   const [isMenu, setIsMenu] = useState(false)
   const cartItems = []
@@ -63,9 +82,17 @@ const Header = ({
     // }
   }
 
-  const logout = () => {
-    setIsMenu(false)
-    localStorage.clear()
+  const handleLogout = () => {
+    localStorage.removeItem('customer_token')
+    setCustomerId('')
+    setCustomerFirstname('')
+    setCustomerLastname('')
+    setCustomerEmail('')
+    setCustomerPhone('')
+    toast.success('Signed-out')
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000)
   }
 
   const handleShowCart = () => {
@@ -124,55 +151,38 @@ const Header = ({
                   </li>
                 </Link>
               ))}
+              {!customerID && (
+                <button
+                  className="calltoaction-btn"
+                  onClick={() => setIsOpenLoginPopUp(true)}
+                >
+                  <MdLogin />
+                  Sign-In
+                </button>
+              )}
             </motion.ul>
 
-            <div
-              className="relative flex items-center justify-center"
-              onClick={handleShowCart}
-            >
-              <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
-              {cartItems && cartItems.length > 0 && (
-                <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
-                  <p className="text-xs text-white font-semibold">
-                    {cartItems.length}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <motion.img
-                whileTap={{ scale: 0.6 }}
-                src={user ? user.photoURL : Avatar}
-                className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
-                alt="userprofile"
-                onClick={handleUserIconClick}
-              />
-              {isMenu && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.6 }}
-                  className="w-40 bg-gray-50 shadow-xl rounded-lg overflow-hidden flex flex-col absolute top-12 right-0"
+            {customerID && (
+              <>
+                <div
+                  className="relative flex items-center justify-center"
+                  onClick={handleShowCart}
                 >
-                  <p
-                    className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                    onClick={logout}
-                  >
-                    <FaRegUser />
-                    Profile
-                  </p>
-
-                  <p
-                    className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                    onClick={logout}
-                  >
-                    <MdLogout />
-                    Logout
-                  </p>
-                </motion.div>
-              )}
-            </div>
+                  <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
+                  {cartItems && cartItems.length > 0 && (
+                    <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+                      <p className="text-xs text-white font-semibold">
+                        {cartItems.length}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <button className="calltoaction-btn" onClick={handleLogout}>
+                  <MdLogout />
+                  Sign-Out
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -249,7 +259,7 @@ const Header = ({
 
                 <p
                   className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                  onClick={logout}
+                  onClick={handleLogout}
                 >
                   Logout <MdLogout />
                 </p>

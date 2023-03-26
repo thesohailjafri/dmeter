@@ -16,12 +16,16 @@ import { IoFastFood } from 'react-icons/io5'
 import NotFound from '../../img/NotFound.svg'
 import ReadMoreReact from 'read-more-react/dist/components/ReadMoreReact'
 import { BsTelephoneOutboundFill } from 'react-icons/bs'
+import { IoMdBasket } from 'react-icons/io'
+import { showCartAtom } from '../../recoil/atoms/cartAtom'
+import { useSetRecoilState } from 'recoil'
 const BranchPage = () => {
   const params = useParams()
   const { branch_slug } = params
   const [branch_id, setBranchId] = useState('')
   const [branch, setBranch] = useState({})
   const [branchAddress, setBranchAddress] = useState({})
+  const setShowCart = useSetRecoilState(showCartAtom)
 
   const [heroMenuItem, setHeroMenuItem] = useState([])
 
@@ -159,9 +163,10 @@ const BranchPage = () => {
             </p>
 
             <button
-              type="button"
-              className="text-white bg-gradient-to-br from-orange-400 to-orange-500 w-full md:w-auto px-4 py-2  rounded-lg hover:shadow-lg transition-all ease-in-out duration-100"
+              className="calltoaction-btn"
+              onClick={() => setShowCart(true)}
             >
+              <IoMdBasket />
               Open Cart
             </button>
           </div>

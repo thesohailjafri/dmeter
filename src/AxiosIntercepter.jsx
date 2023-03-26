@@ -15,7 +15,7 @@ const toastParams = {
 }
 export default function AxiosInterpector({ children }) {
   axios.defaults.headers.common['Authorization'] =
-    'Bearer ' + localStorage.getItem('token')
+    'Bearer ' + localStorage.getItem('customer_token')
   axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
   axios.defaults.headers.patch['Content-Type'] = 'application/json'
   axios.defaults.headers.put['Content-Type'] = 'application/json'
@@ -30,10 +30,6 @@ export default function AxiosInterpector({ children }) {
       return res
     },
     (err) => {
-      // console.log({ err });
-      if (err.response.status === 401) {
-        window.location.replace('/accessdenied')
-      }
       if (err.response.data.msg) {
         if (err.response.status >= 500) {
           toast.error(err.response.data.msg, toastParams)

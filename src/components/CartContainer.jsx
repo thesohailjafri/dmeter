@@ -6,13 +6,15 @@ import { motion } from 'framer-motion'
 
 import EmptyCart from '../img/emptyCart.svg'
 import CartItem from './CartItem'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { showCartAtom } from '../recoil/atoms/cartAtom'
 import { Dialog } from '@headlessui/react'
+import { customerIdAtom } from '../recoil/atoms/customerAtom'
 
 const CartContainer = () => {
   const [flag, setFlag] = useState(1)
   const [tot, setTot] = useState(0)
+  const customerId = useRecoilValue(customerIdAtom)
   const cartItems = []
   const user = false
   const [showCart, setShowCart] = useRecoilState(showCartAtom)
@@ -34,7 +36,7 @@ const CartContainer = () => {
           initial={{ opacity: 0, x: 200 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 200 }}
-          className=" absolute top-0 right-0 w-full md:w-375 h-screen bg-white drop-shadow-md flex flex-col z-[101]"
+          className=" fixed top-0 right-0 w-full md:w-375 h-screen bg-white drop-shadow-md flex flex-col z-[101]"
         >
           <div className="w-full flex items-center justify-between p-4 cursor-pointer">
             <motion.div whileTap={{ scale: 0.75 }} onClick={handleCloseCart}>
@@ -52,6 +54,11 @@ const CartContainer = () => {
           </div>
 
           {/* bottom section */}
+          {!customerId && (
+            <p className="text-center text-orange-600">
+              Sign-in to add items in cart
+            </p>
+          )}
           {cartItems && cartItems.length > 0 ? (
             <div className="w-full h-full bg-cartBg rounded-t-[2rem] flex flex-col">
               {/* cart Items section */}
