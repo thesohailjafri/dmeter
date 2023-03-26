@@ -26,7 +26,7 @@ export const AppTopbar = (props) => {
     const setUserPositionAtom = useSetRecoilState(userPositionAtom);
 
     const logoutHandler = () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("customer_token");
         setUserIdAtom("");
         setEmailAtom("");
         setFirstnameAtom("");

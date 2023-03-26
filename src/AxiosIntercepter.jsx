@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 export default function AxiosInterpector({ children }) {
     const toast = useRef(null);
     const history = useHistory();
-    axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("user_token");
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     axios.defaults.headers.patch["Content-Type"] = "application/json";
     axios.defaults.headers.put["Content-Type"] = "application/json";

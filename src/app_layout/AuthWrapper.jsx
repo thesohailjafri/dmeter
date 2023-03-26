@@ -65,23 +65,6 @@ export const AuthWrapper = ({ children }) => {
         copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
     }, [location]);
 
-    const onInputStyleChange = (inputStyle) => {
-        setInputStyle(inputStyle);
-    };
-
-    const onRipple = (e) => {
-        PrimeReact.ripple = e.value;
-        setRippleEffect(e.value);
-    };
-
-    const onLayoutModeChange = (mode) => {
-        setLayoutMode(mode);
-    };
-
-    const onColorModeChange = (mode) => {
-        setLayoutColorMode(mode);
-    };
-
     const onWrapperClick = (event) => {
         if (!menuClick) {
             setOverlayMenuActive(false);
@@ -164,7 +147,18 @@ export const AuthWrapper = ({ children }) => {
         "p-ripple-disabled": rippleEffect === false,
         "layout-theme-light": layoutColorMode === "light",
     });
-
+    const fetchBranches = async (id) => {
+        const res = await getBranchesApi({
+            restaurant_id: id,
+        });
+        if (res) {
+            if (res.status === 200) {
+                setBranchesAtom(res?.data?.branches);
+            } else {
+                setBranchesAtom([]);
+            }
+        }
+    };
     const fetchMe = async () => {
         setAuthing(true);
         const res = await getMeApi();
@@ -197,19 +191,8 @@ export const AuthWrapper = ({ children }) => {
             setAuthing(false);
         }
     };
-    const fetchBranches = async (id) => {
-        const res = await getBranchesApi({
-            restaurant_id: id,
-        });
-        if (res) {
-            if (res.status === 200) {
-                setBranchesAtom(res?.data?.branches);
-            } else {
-                setBranchesAtom([]);
-            }
-        }
-    };
     useEffect(() => fetchMe(), []);
+
     return authing ? (
         <MainLoader />
     ) : (
@@ -228,7 +211,6 @@ export const AuthWrapper = ({ children }) => {
                 <div className="layout-mask p-component-overlay"></div>
             </CSSTransition>
             <AppFooter />
-            {/* <AppConfig onRippleEffect={onRipple} onInputStyleChange={onInputStyleChange} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} /> */}
         </div>
     );
 };

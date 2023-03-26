@@ -23,7 +23,7 @@ export const LoginPage = () => {
         });
         if (res) {
             if (res.status === 200) {
-                localStorage.setItem("token", res?.data?.token);
+                localStorage.setItem("user_token", res?.data?.token);
                 await delay(1000);
                 setLoading(false);
                 window.location.href = "/";
