@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
       validate: [isEmail, 'Invalid email'],
     },
     phone: {
-      type: Number,
+      type: String,
       unique: true,
       required: true,
       trim: true,
@@ -47,6 +47,8 @@ const schema = new mongoose.Schema(
   },
   { timestamps: true },
 )
+
+schema.index({ email: 1, phone: 1 }, { unique: true })
 
 schema.pre('save', async function () {
   if (!this.isModified('password')) return

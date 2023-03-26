@@ -79,9 +79,7 @@ const signupCustomer = async (req, res) => {
     phone: 1,
   })
   if (exist) {
-    throw new error.BadRequestError(
-      'Phone number is already register with us, please signin',
-    )
+    throw new error.BadRequestError('Phone number is already register with us')
   }
   const customer = await CustomerModel.create({
     name: {
