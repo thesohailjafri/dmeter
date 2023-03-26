@@ -9,23 +9,26 @@ const {
   deleteMenuitem,
   deleteMenuCategory,
 } = require('../controllers/menuController')
-const authMiddleware = require('../middlewares/authMiddleware')
+const { authUserMiddleware } = require('../middlewares/authMiddleware')
 var urlencodedParser = bodyParser.json()
 
 const menuRouter = express.Router()
 
 menuRouter
   .route('/')
-  .post(authMiddleware, urlencodedParser, postMenuitem)
+  .post(authUserMiddleware, urlencodedParser, postMenuitem)
   .get(getMenu)
 
 menuRouter
   .route('/category')
-  .post(authMiddleware, postMenuCategory)
+  .post(authUserMiddleware, postMenuCategory)
   .get(getMenuCategories)
 
-menuRouter.route('/category/:id').delete(authMiddleware, deleteMenuCategory)
+menuRouter.route('/category/:id').delete(authUserMiddleware, deleteMenuCategory)
 
-menuRouter.route('/:id').get(getMenuitem).delete(authMiddleware, deleteMenuitem)
+menuRouter
+  .route('/:id')
+  .get(getMenuitem)
+  .delete(authUserMiddleware, deleteMenuitem)
 
 module.exports = menuRouter

@@ -22,7 +22,18 @@ const createTokenUser = (user, restaurant_name) => {
   return token
 }
 
+const createTokenCustomer = (user) => {
+  const token = {
+    _id: user._id,
+    name: user.name,
+    phone: user.phone,
+    email: user.email,
+  }
+  return token
+}
+
 module.exports = {
   generateJWT,
   createTokenUser,
+  createTokenCustomer,
 }

@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken')
 const error = require('../errors')
-const { createTokenUser } = require('../helpers/jwt/generate')
+const {
+  createTokenUser,
+  createTokenCustomer,
+} = require('../helpers/jwt/generate')
 
-const authMiddleware = async (req, _, next) => {
+const authUserMiddleware = async (req, _, next) => {
   const bearerHeader = req.headers['authorization']
   if (!bearerHeader || bearerHeader.split(' ')[0] !== 'Bearer') {
     throw new error.UnauthorizedError('No token provided')
@@ -15,4 +18,17 @@ const authMiddleware = async (req, _, next) => {
   next()
 }
 
-module.exports = authMiddleware
+const authCustomerMiddleware = async (req, _, next) => {
+  const bearerHeader = req.headers['authorization']
+  if (!bearerHeader || bearerHeader.split(' ')[0] !== 'Bearer') {
+    throw new error.UnauthorizedError('No token provided')
+  }
+  const bearer = bearerHeader.split(' ')
+  const bearerToken = bearer[1]
+
+  const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET)
+  req.customer = { ...createTokenCustomer(decoded) }
+  next()
+}
+
+module.exports = { authUserMiddleware, authCustomerMiddleware }

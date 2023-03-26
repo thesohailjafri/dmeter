@@ -9,6 +9,7 @@ const UserModel = require('../models/UserModel')
 const BranchAddressModel = require('../models/BranchAddressModel')
 const AddressModel = require('../models/AddressModel')
 const shortid = require('shortid')
+const MenuitemModel = require('../models/MenuitemModel')
 shortid.characters(
   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@',
 )
@@ -177,16 +178,19 @@ const getBranchUsingSlug = async (req, res) => {
   const branch = await BranchModel.findOne({ branch_slug }).populate(
     'restaurant_id',
   )
-  const branch_address = await BranchAddressModel.findById(
-    branch?.branch_address,
-  )
   if (!branch) {
     throw new error.NotFoundError('Branch not found')
   }
-
+  const [branch_address, featuredItems] = await Promise.all([
+    await BranchAddressModel.findById(branch?.branch_address),
+    await MenuitemModel.find({ branch_id: branch._id })
+      .sort('-createdAt')
+      .limit(4),
+  ])
   res.status(StatusCodes.OK).json({
     branch,
     branch_address,
+    featuredItems,
   })
 }
 

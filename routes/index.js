@@ -5,7 +5,7 @@ const menuRouter = require('./menuRouter')
 const authRouter = require('./authRouter')
 const notFoundMiddleware = require('../middlewares/notFoundMiddleware')
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware')
-const authMiddleware = require('../middlewares/authMiddleware')
+const { authUserMiddleware } = require('../middlewares/authMiddleware')
 const orderRouter = require('./orderRouter')
 const searchRouter = require('./searchRouter')
 
@@ -17,7 +17,7 @@ const apiRouter = (app) => {
   app.use('/api/menu/', menuRouter)
   app.use('/api/order/', orderRouter)
   app.use('/api/branch/', branchRouter)
-  app.use('/api/staff/', authMiddleware, staffRouter)
+  app.use('/api/staff/', authUserMiddleware, staffRouter)
 
   // post m.w
   app.use(notFoundMiddleware)
