@@ -4,7 +4,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import React, { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBranchApi } from "../api";
 
 export const BranchPage = () => {
@@ -112,6 +112,21 @@ export const BranchPage = () => {
                                 <div className="field col-12">
                                     <label htmlFor="">Branch Name</label>
                                     <InputText value={data?.branch?.branch_name} disabled={mode === "view"} placeholder="Eg. Sion" />
+                                </div>
+
+                                <div className="field col-12">
+                                    <label htmlFor="">Branch About Us</label>
+                                    <InputTextarea autoResize value={data?.branch?.branch_aboutus} disabled={mode === "view"} placeholder="Eg. Sion" />
+                                </div>
+
+                                <div className="field col-12">
+                                    <label htmlFor="">Branch Slug</label>
+                                    <div className="flex gap-3">
+                                        <InputText value={data?.branch?.branch_slug} disabled={mode === "view"} placeholder="Eg. Sion" />
+                                        <a href={process.env.REACT_APP_CLIENT_APP_URL + "branch/" + data?.branch?.branch_slug} target="_blank" rel="noreferrer">
+                                            <Button icon="pi pi-external-link" label="Open" />
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div className="field col-12 md:col-6">

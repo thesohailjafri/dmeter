@@ -14,12 +14,12 @@ import { branchesAtom } from "../recoil/atoms/branchAtom";
 
 export const AddBranchPage = () => {
     useEffect(() => {
-        document.title = "Add New Branch";
+        document.title = "Add A New Branch";
     }, []);
     const restaurant_id = useRecoilValue(userRestaurantIdAtom);
     const branchDetails_empty = {
         branch_name: "",
-        branch_description: "",
+        branch_aboutus: "",
         delivery: true,
         branch_address: {
             addressline: "",
@@ -59,8 +59,8 @@ export const AddBranchPage = () => {
         if (!branchDetails.branch_name) {
             _errors.push("Branch name is required");
         }
-        if (!branchDetails.branch_description) {
-            _errors.push("Branch description is required");
+        if (!branchDetails.branch_aboutus) {
+            _errors.push("Branch about us is required");
         }
         // branch_address
         if (!branchDetails.branch_address.addressline) {
@@ -305,13 +305,14 @@ export const AddBranchPage = () => {
                                     <ToggleButton onLabel="Yes" offLabel="No" onIcon="pi pi-check" offIcon="pi pi-times" checked={branchDetails.delivery} onChange={(e) => branchDetailsChangeHandler(`delivery`, e.value)} />
                                 </div>
                                 <div className="field col-12">
-                                    <label htmlFor="">Branch Description</label>
+                                    <label htmlFor="">Branch About Us</label>
                                     <InputTextarea
+                                        autoResize
                                         disabled={saveloaders}
-                                        value={branchDetails.branch_description}
-                                        className={classNames({ "p-invalid block": !branchDetails.branch_description && errors.length >= 1 })}
-                                        onChange={(e) => branchDetailsChangeHandler(`branch_description`, e.target.value)}
-                                        placeholder="Enter branch description"
+                                        value={branchDetails.branch_aboutus}
+                                        className={classNames({ "p-invalid block": !branchDetails.branch_aboutus && errors.length >= 1 })}
+                                        onChange={(e) => branchDetailsChangeHandler(`branch_aboutus`, e.target.value)}
+                                        placeholder="Enter branch about us"
                                     />
                                     {errors.length >= 1 && !branchDetails.branch_name && <small className="p-error block">Please enter branch name.</small>}
                                 </div>

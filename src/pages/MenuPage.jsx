@@ -218,54 +218,69 @@ export const MenuPage = () => {
                                         <h6 className="text-center">Menu Item Details</h6>
                                         <hr className="col-12" />
                                         <div className="p-fluid grid formgrid">
-                                            <div className="field col-12">
-                                                <label htmlFor="">Item Name</label>
-                                                <InputText disabled={newLoader} value={newRecord.name} onChange={(e) => newRecordChangeHandler(`name`, e.target.value)} className={classNames({ "p-invalid block": !newRecord.name && errors.length >= 1 })} placeholder="Enter Item Name" />
-                                                {errors.length >= 1 && !newRecord.name && <small className="p-error block">Please enter item name</small>}
+                                            <div className="field col-12 grid">
+                                                <div className="col-12 xl:col-6">
+                                                    <div className="field">
+                                                        <label htmlFor="">Item Name</label>
+                                                        <InputText disabled={newLoader} value={newRecord.name} onChange={(e) => newRecordChangeHandler(`name`, e.target.value)} className={classNames({ "p-invalid block": !newRecord.name && errors.length >= 1 })} placeholder="Enter Item Name" />
+                                                        {errors.length >= 1 && !newRecord.name && <small className="p-error block">Please enter item name</small>}
+                                                    </div>
+                                                    <div className="field">
+                                                        <label htmlFor="">Category</label>
+                                                        <Dropdown disabled={newLoader} value={newRecord.category_id} options={menuCategories} optionLabel="name" optionValue="_id" onChange={(e) => newRecordChangeHandler("category_id", e.value)} placeholder="Select Category" />
+                                                    </div>
+                                                    <div className="field">
+                                                        <label htmlFor="">Diet</label>
+                                                        <div className="ml-2 md:flex flex-wrap column-gap-3">
+                                                            {dietOptions.map((item) => {
+                                                                return (
+                                                                    <div className="field-radiobutton">
+                                                                        <RadioButton
+                                                                            name="diet"
+                                                                            disabled={newLoader}
+                                                                            value={item}
+                                                                            checked={newRecord.diet === item}
+                                                                            onChange={(e) => {
+                                                                                newRecordChangeHandler("diet", e.value);
+                                                                            }}
+                                                                        />
+                                                                        <label htmlFor="">{item}</label>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-12 xl:col-6">
+                                                    <div className="field">
+                                                        <label htmlFor="">Item Thumbnail (4x3 Ratio)</label>
+                                                        <AddImage disabled={newLoader} isClear={true} image={thumbnail} handleClearImage={handleClearThumbnail} className={classNames({ "p-invalid block": !thumbnail.url && errors.length >= 1 })} handleImageSelect={handleThumbnailSelect} />
+                                                        {errors.length >= 1 && !thumbnail.url && <small className="p-error block">Please select a thumbnail.</small>}
+                                                    </div>
+                                                </div>
                                             </div>
+
                                             <div className="field col-12">
                                                 <label htmlFor="">Description (optional)</label>
                                                 <InputTextarea rows={5} disabled={newLoader} value={newRecord.description} onChange={(e) => newRecordChangeHandler(`description`, e.target.value)} placeholder="Enter Description" />
                                             </div>
-                                            <div className="field col-12 xl:col-6">
-                                                <label htmlFor="">Category</label>
-                                                <Dropdown disabled={newLoader} value={newRecord.category_id} options={menuCategories} optionLabel="name" optionValue="_id" onChange={(e) => newRecordChangeHandler("category_id", e.value)} placeholder="Select Category" />
-                                            </div>
-                                            <div className="field col-12 xl:col-6">
+
+                                            <div className="field col-12">
                                                 <label htmlFor="">Alternate Names (optional)</label>
                                                 <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.alternateNames} onChange={(e) => newRecordChangeHandler("alternateNames", e.value)} placeholder="Enter Alternate Names"></Chips>
                                             </div>
-                                            <div className="field col-12 xl:col-6">
+                                            <div className="field col-12">
                                                 <label htmlFor="">Ingredients (optional)</label>
                                                 <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.ingredients} onChange={(e) => newRecordChangeHandler("ingredients", e.value)} placeholder="Enter Ingredients"></Chips>
                                             </div>
-                                            <div className="field col-12 xl:col-6">
+                                            <div className="field col-12">
                                                 <label htmlFor="">Allergens (optional)</label>
                                                 <Chips separator="," tooltip="Press enter to save value" disabled={newLoader} value={newRecord.allergens} onChange={(e) => newRecordChangeHandler("allergens", e.value)} placeholder="Enter Allergens"></Chips>
                                             </div>
-                                            <div className="field col-12 mb-0">
-                                                <label htmlFor="">Diet</label>
-                                                <div className="ml-2 md:flex flex-wrap column-gap-3">
-                                                    {dietOptions.map((item) => {
-                                                        return (
-                                                            <div className="field-radiobutton">
-                                                                <RadioButton
-                                                                    name="diet"
-                                                                    disabled={newLoader}
-                                                                    value={item}
-                                                                    checked={newRecord.diet === item}
-                                                                    onChange={(e) => {
-                                                                        newRecordChangeHandler("diet", e.value);
-                                                                    }}
-                                                                />
-                                                                <label htmlFor="">{item}</label>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="col-12 xl:col-6">
                                     <div className="card">
                                         <h6 className="text-center">Pricing</h6>
                                         <hr className="col-12" />
@@ -336,18 +351,10 @@ export const MenuPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-12 xl:col-6">
-                                    <div className="card">
+                                    {/* <div className="card">
                                         <h6 className="text-center">Images</h6>
                                         <hr />
                                         <div className="p-fluid grid formgrid">
-                                            <div className="field col-12 mb-4">
-                                                <label htmlFor="">Select Thumbnail</label>
-                                                <AddImage disabled={newLoader} isClear={true} image={thumbnail} handleClearImage={handleClearThumbnail} className={classNames({ "p-invalid block": !thumbnail.url && errors.length >= 1 })} handleImageSelect={handleThumbnailSelect} />
-
-                                                {errors.length >= 1 && !thumbnail.url && <small className="p-error block">Please select a thumbnail.</small>}
-                                            </div>
                                             <div className="field col-12 h-full">
                                                 <label htmlFor="">Dish Images (optional)</label>
                                                 {images.map((image, idx) => {
@@ -362,7 +369,7 @@ export const MenuPage = () => {
                                         <div className="col-12">
                                             <Button disabled={newLoader} label="Add Image" icon="pi pi-plus" onClick={() => handleAddImage()} className="p-button-secondary w-full"></Button>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="formgrid grid">

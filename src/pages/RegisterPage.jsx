@@ -11,12 +11,14 @@ import { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { userEmailAtom } from "../recoil/atoms/userAtom";
 import { useSetRecoilState } from "recoil";
+import { AddImage } from "../components/AddImage";
 export const RegisterPage = () => {
     const history = useHistory();
     const setUserEmail = useSetRecoilState(userEmailAtom);
     const toast = useRef(null);
     const empty_newRecord = {
         restaurant_name: "",
+        restaurant_aboutus: "",
         restaurant_address: {
             addressline: "",
             pincode: "",
@@ -60,7 +62,7 @@ export const RegisterPage = () => {
     };
 
     useEffect(() => {
-        document.title = "Register";
+        document.title = "Register Your Resturant";
     }, []);
     return (
         <div className="">
@@ -208,6 +210,18 @@ export const RegisterPage = () => {
                                             value={newRecord.restaurant_name}
                                             onChange={(e) => {
                                                 newRecordChangeHandler("restaurant_name", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="field col-12">
+                                        <label aria-label="Restaurant Name">Restaurant About Us</label>
+                                        <InputTextarea
+                                            autoResize
+                                            placeholder="Enter restaurant about us"
+                                            value={newRecord.restaurant_aboutus}
+                                            onChange={(e) => {
+                                                newRecordChangeHandler("restaurant_aboutus", e.target.value);
                                             }}
                                         />
                                     </div>
