@@ -134,7 +134,7 @@ const BranchPage = () => {
 
             <p>
               {branchAddress?.phone && Array.isArray(branchAddress.phone) && (
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   {branchAddress.phone.map((phone) => (
                     <a href={`tel:${phone}`}>
                       <span className="flex items-center gap-2 justify-center bg-orange-100 px-4 py-1 rounded-full">
