@@ -2,7 +2,8 @@ import backend_api from './_backend_api'
 
 const endpoints = {
   auth: {
-    index: `${backend_api}/auth/`,
+    index: `${backend_api}/auth/customer/`,
+    signup: `${backend_api}/auth/customer/signup/`,
   },
   restaurant: {
     index: `${backend_api}/restaurant/`,

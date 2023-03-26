@@ -21,6 +21,13 @@ body {
 .read-more-button {
   @apply text-orange-600;
 }
+.form-field {
+  @apply bg-orange-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5;
+}
+
+.form-field-err {
+  @apply text-orange-600;
+}
 
 @tailwind base;
 @tailwind components;

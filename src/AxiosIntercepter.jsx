@@ -1,6 +1,8 @@
 import { ToastContainer, toast } from 'react-toastify'
 import React from 'react'
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css'
+
 const toastParams = {
   position: 'top-right',
   autoClose: 5000,
