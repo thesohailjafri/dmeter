@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
-import { BranchHeader } from '../../components'
+import { BranchHeader, MenuItem } from '../../components'
 import { motion } from 'framer-motion'
 import NotFound from '../../img/NotFound.svg'
 
@@ -79,6 +79,8 @@ export default function BranchMenuPage() {
   return (
     <div>
       <BranchHeader
+        restaurantName={branch?.restaurant_id?.restaurant_name}
+        branchName={branch?.branch_name}
         homeUrl={`/branch/${branch_slug}`}
         menuUrl={`/menu/${branch_slug}`}
         aboutUsUrl={`/about/${branch_slug}`}
@@ -86,7 +88,7 @@ export default function BranchMenuPage() {
       />
       <div>
         <div className="w-full">
-          <div ref={rowContainer} className="w-full my-12 scroll-smooth ">
+          <div ref={rowContainer} className="w-full my-12 scroll-smooth">
             {menuItems && menuItems.length > 0 ? (
               <div className="">
                 {menuItems.map((menuItem) => (
@@ -95,46 +97,15 @@ export default function BranchMenuPage() {
                       {menuItem.category.name}
                     </p>
                     <div className="container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mx-auto">
-                      {menuItem.categoryItems.map((categoryItem) => (
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          key={categoryItem?.id}
-                          className="p-4  bg-red-100 backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
-                        >
-                          <img
-                            src={
-                              'https://res.cloudinary.com/dhvfvo2yb/image/upload/v1664997220/' +
-                              categoryItem?.thumbnail
-                            }
-                            alt=""
-                            className="rounded-lg overflow-hiddens"
-                          />
-
-                          <div className="">
-                            <h6 className="text-base lg:text-xl font-semibold text-textColor mt-2 lg:mt-4">
-                              {categoryItem?.name}
-                            </h6>
-                            <p className="text-sm opacity-75">
-                              {categoryItem?.category_id?.name}
-                            </p>
-                            <div className="mt-2 flex flex-col gap-2 justify-center">
-                              {categoryItem?.prices &&
-                                categoryItem?.prices.map((price, idx) => {
-                                  return (
-                                    <div className="flex justify-between">
-                                      <span>{price?.quantity}</span>
-                                      <span className="">₹{price?.amount}</span>
-                                      <span>
-                                        <button className="cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-6 h-6 rounded m-0 text-white">
-                                          +
-                                        </button>
-                                      </span>
-                                    </div>
-                                  )
-                                })}
-                            </div>
-                          </div>
-                        </motion.div>
+                      {menuItem.categoryItems.map((item) => (
+                        <MenuItem
+                          branch_id={branch_id}
+                          id={item?.id}
+                          thumbnail={item?.thumbnail}
+                          name={item?.name}
+                          category={item?.category_id?.name}
+                          prices={item?.prices}
+                        />
                       ))}
                     </div>
                   </div>

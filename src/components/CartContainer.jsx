@@ -6,26 +6,35 @@ import { motion } from 'framer-motion'
 
 import EmptyCart from '../img/emptyCart.svg'
 import CartItem from './CartItem'
+import { useRecoilState } from 'recoil'
+import { showCartAtom } from '../recoil/atoms/cartAtom'
 
 const CartContainer = () => {
   const [flag, setFlag] = useState(1)
   const [tot, setTot] = useState(0)
   const cartItems = []
   const user = false
+  const [showCart, setShowCart] = useRecoilState(showCartAtom)
 
-  const showCart = () => {}
+  const handleShowCart = () => {
+    setShowCart(true)
+  }
 
-  const clearCart = () => {}
+  const handleClearCart = () => {}
 
+  const handleCloseCart = () => {
+    setShowCart(false)
+  }
+  console.log(showCart)
   return (
     <motion.div
       initial={{ opacity: 0, x: 200 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 200 }}
-      className="fixed top-0 right-0 w-full md:w-375 h-screen bg-white drop-shadow-md flex flex-col z-[101]"
+      className=" absolute top-0 right-0 w-full md:w-375 h-screen bg-white drop-shadow-md flex flex-col z-[101]"
     >
       <div className="w-full flex items-center justify-between p-4 cursor-pointer">
-        <motion.div whileTap={{ scale: 0.75 }} onClick={showCart}>
+        <motion.div whileTap={{ scale: 0.75 }} onClick={handleCloseCart}>
           <MdOutlineKeyboardBackspace className="text-textColor text-3xl" />
         </motion.div>
         <p className="text-textColor text-lg font-semibold">Cart</p>
@@ -33,7 +42,7 @@ const CartContainer = () => {
         <motion.p
           whileTap={{ scale: 0.75 }}
           className="flex items-center gap-2 p-1 px-2 my-2 bg-gray-100 rounded-md hover:shadow-md  cursor-pointer text-textColor text-base"
-          onClick={clearCart}
+          onClick={handleClearCart}
         >
           Clear <RiRefreshFill />
         </motion.p>

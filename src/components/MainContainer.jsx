@@ -5,6 +5,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import RowContainer from './RowContainer'
 import MenuContainer from './MenuContainer'
 import CartContainer from './CartContainer'
+import LoginCard from './LoginCard'
 
 const MainContainer = () => {
   const [scrollValue, setScrollValue] = useState(0)
@@ -45,8 +46,6 @@ const MainContainer = () => {
       </section>
 
       <MenuContainer />
-
-      {cartShow && <CartContainer />}
     </div>
   )
 }

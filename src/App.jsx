@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { Header, MainContainer } from './components'
+import { Header, MainContainer, LoginCardOverlay } from './components'
 
 import {
   BranchAboutUsPage,
@@ -27,9 +27,11 @@ const App = () => {
 
   return (
     <AnimatePresence exitBeforeEnter>
-      <div className="w-screen min-h-screen flex flex-col bg-primary">
+      <div className="w-screen min-h-screen flex flex-col ">
         <div className="container mx-auto">
           <main className="mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
+            <LoginCardOverlay />
+
             <Routes>
               <Route exact path="/" element={<MainContainer />} />
               <Route path="/branch/:branch_slug" element={<BranchPage />} />

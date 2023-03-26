@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { BranchHeader, HomeContainer, MenuContainer } from '../../components'
+import {
+  BranchHeader,
+  HeroMenuitem,
+  HomeContainer,
+  MenuContainer,
+  MenuItem,
+} from '../../components'
 import { useParams } from 'react-router-dom'
 import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
 import HeroBg from '../../img/heroBg.png'
@@ -8,13 +14,18 @@ import { heroData } from '../../utils/data'
 import Delivery from '../../img/delivery.png'
 import { IoFastFood } from 'react-icons/io5'
 import NotFound from '../../img/NotFound.svg'
-
+import ReadMoreReact from 'read-more-react/dist/components/ReadMoreReact'
+import { BsTelephoneOutboundFill } from 'react-icons/bs'
 const BranchPage = () => {
   const params = useParams()
   const { branch_slug } = params
-  const [branch, setBranch] = useState({})
-  const [categories, setCategories] = useState([])
   const [branch_id, setBranchId] = useState('')
+  const [branch, setBranch] = useState({})
+  const [branchAddress, setBranchAddress] = useState({})
+
+  const [heroMenuItem, setHeroMenuItem] = useState([])
+
+  const [categories, setCategories] = useState([])
   const [category, setCategory] = useState({})
   const [menuItems, setMenuItems] = useState([])
   const rowContainer = useRef()
@@ -26,6 +37,7 @@ const BranchPage = () => {
       if (res) {
         if (res.status === 200) {
           setBranch(res.data.branch)
+          setBranchAddress(res.data.branch_address)
           setBranchId(res.data.branch._id)
         }
       }
@@ -45,6 +57,9 @@ const BranchPage = () => {
       if (res) {
         if (res.status === 200) {
           setMenuItems(res.data.records)
+          if (heroMenuItem.length <= 4) {
+            setHeroMenuItem((ps) => [...ps, ...res.data.records].slice(0, 4))
+          }
         }
       }
     }
@@ -79,6 +94,8 @@ const BranchPage = () => {
   return (
     <div className="">
       <BranchHeader
+        restaurantName={branch?.restaurant_id?.restaurant_name}
+        branchName={branch?.branch_name}
         homeUrl={`/branch/${branch_slug}`}
         menuUrl={`/menu/${branch_slug}`}
         aboutUsUrl={`/about/${branch_slug}`}
@@ -90,18 +107,20 @@ const BranchPage = () => {
           id="home"
         >
           <div className="py-2 flex-1 flex flex-col items-start justify-center gap-6">
-            <div className="flex items-center gap-2 justify-center bg-orange-100 px-4 py-1 rounded-full">
-              <p className="text-base text-orange-500 font-semibold">
-                Bike Delivery
-              </p>
-              <div className="w-8 h-8 bg-white rounded-full overflow-hidden drop-shadow-xl">
-                <img
-                  src={Delivery}
-                  className="w-full h-full object-contain"
-                  alt="delivery"
-                />
+            {branch?.delivery && (
+              <div className="flex items-center gap-2 justify-center bg-orange-100 px-4 py-1 rounded-full">
+                <p className="text-base text-orange-500 font-semibold">
+                  Bike Delivery
+                </p>
+                <div className="w-8 h-8 bg-white rounded-full overflow-hidden drop-shadow-xl">
+                  <img
+                    src={Delivery}
+                    className="w-full h-full object-contain"
+                    alt="delivery"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <p className="text-[2.5rem] lg:text-[4.5rem] font-bold tracking-wide text-headingColor">
               {branch?.restaurant_id?.restaurant_name || 'Restaurant'} (
@@ -111,17 +130,39 @@ const BranchPage = () => {
               )
             </p>
 
+            <p>
+              {branchAddress?.phone && Array.isArray(branchAddress.phone) && (
+                <div className="flex gap-3">
+                  {branchAddress.phone.map((phone) => (
+                    <a href={`tel:${phone}`}>
+                      <span className="flex items-center gap-2 justify-center bg-orange-100 px-4 py-1 rounded-full">
+                        <BsTelephoneOutboundFill />
+                        <span className="text-base text-orange-500 font-semibold">
+                          {phone}
+                        </span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </p>
+
             <p className="text-base text-textColor text-center md:text-left md:w-[80%]">
-              {branch?.restaurant_id?.restaurant_name}({branch?.branch_name}),
-              is a true hero in the culinary world, serving up authentic cuisine
-              using the finest ingredients and traditional techniques. With a
-              focus on freshness and customer satisfaction, it's a branch of the
-              popular {branch?.restaurant_id?.restaurant_name} restaurant chain.
+              {branch?.branch_aboutus && (
+                <ReadMoreReact
+                  text={branch?.branch_aboutus}
+                  min={100}
+                  ideal={150}
+                  max={300}
+                  readMoreText={'...read more'}
+                  buttonColor="text-orange-600"
+                />
+              )}
             </p>
 
             <button
               type="button"
-              className="bg-gradient-to-br from-orange-400 to-orange-500 w-full md:w-auto px-4 py-2  rounded-lg hover:shadow-lg transition-all ease-in-out duration-100"
+              className="text-white bg-gradient-to-br from-orange-400 to-orange-500 w-full md:w-auto px-4 py-2  rounded-lg hover:shadow-lg transition-all ease-in-out duration-100"
             >
               Open Cart
             </button>
@@ -134,30 +175,16 @@ const BranchPage = () => {
             />
 
             <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center py-4 gap-4 flex-wrap">
-              {heroData &&
-                heroData.map((n) => (
-                  <div
-                    key={n.id}
-                    className="  xl:w-190  p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col items-center justify-center drop-shadow-lg"
-                  >
-                    <img
-                      src={n.imageSrc}
-                      className="w-20 lg:w-40 -mt-10 lg:-mt-20 "
-                      alt="I1"
-                    />
-                    <p className="text-base lg:text-xl font-semibold text-textColor mt-2 lg:mt-4">
-                      {n.name}
-                    </p>
-
-                    <p className="text-[12px] lg:text-sm text-lighttextGray font-semibold my-1 lg:my-3">
-                      {n.decp}
-                    </p>
-
-                    <p className="text-sm font-semibold text-headingColor">
-                      <span className="text-xs text-red-600">₹</span> {n.price}
-                    </p>
-                  </div>
-                ))}
+              {heroMenuItem.map((item) => (
+                <HeroMenuitem
+                  branch_id={branch_id}
+                  id={item?.id}
+                  thumbnail={item?.thumbnail}
+                  name={item?.name}
+                  category={item?.category_id?.name}
+                  prices={item?.prices}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -214,45 +241,14 @@ const BranchPage = () => {
                 {menuItems && menuItems.length > 0 ? (
                   <div className="container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mx-auto">
                     {menuItems.map((item) => (
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        key={item?.id}
-                        className="p-4  bg-red-100 backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
-                      >
-                        <img
-                          src={
-                            'https://res.cloudinary.com/dhvfvo2yb/image/upload/v1664997220/' +
-                            item?.thumbnail
-                          }
-                          alt=""
-                          className="rounded-lg overflow-hiddens"
-                        />
-
-                        <div className="">
-                          <h6 className="text-base lg:text-xl font-semibold text-textColor mt-2 lg:mt-4">
-                            {item?.name}
-                          </h6>
-                          <p className="text-sm opacity-75">
-                            {item?.category_id?.name}
-                          </p>
-                          <div className="mt-2 flex flex-col gap-2 justify-center">
-                            {item?.prices &&
-                              item?.prices.map((price, idx) => {
-                                return (
-                                  <div className="flex justify-between">
-                                    <span>{price?.quantity}</span>
-                                    <span className="">₹{price?.amount}</span>
-                                    <span>
-                                      <button className="cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-6 h-6 rounded m-0 text-white">
-                                        +
-                                      </button>
-                                    </span>
-                                  </div>
-                                )
-                              })}
-                          </div>
-                        </div>
-                      </motion.div>
+                      <MenuItem
+                        branch_id={branch_id}
+                        id={item?.id}
+                        thumbnail={item?.thumbnail}
+                        name={item?.name}
+                        category={item?.category_id?.name}
+                        prices={item?.prices}
+                      />
                     ))}
                   </div>
                 ) : (
