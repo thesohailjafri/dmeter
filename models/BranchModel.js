@@ -19,7 +19,7 @@ const schema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    branch_description: {
+    branch_aboutus: {
       type: String,
       required: true,
       trim: true,

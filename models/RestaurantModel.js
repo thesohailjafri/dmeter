@@ -15,15 +15,12 @@ const schema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    restaurant_description: {
+    restaurant_aboutus: {
       type: String,
       required: true,
       trim: true,
     },
-    restaurant_image_url: {
-      type: String,
-      required: true,
-    },
+
     restaurant_address: {
       type: mongoose.Schema.ObjectId,
       required: true,

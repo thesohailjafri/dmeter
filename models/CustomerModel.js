@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { isEmail } = require('validator')
+const { isEmail, isMobilePhone } = require('validator')
 const bcrypt = require('bcryptjs')
 
 const schema = new mongoose.Schema(
@@ -10,6 +10,13 @@ const schema = new mongoose.Schema(
       lowercase: true,
       unique: true,
       validate: [isEmail, 'Invalid email'],
+    },
+    phone: {
+      type: Number,
+      unique: true,
+      required: true,
+      trim: true,
+      validate: [isMobilePhone, 'Invalid phone number'],
     },
     name: {
       first: {
@@ -24,11 +31,6 @@ const schema = new mongoose.Schema(
         lowercase: true,
         required: true,
       },
-    },
-    phone: {
-      type: Number,
-      unique: true,
-      trim: true,
     },
     password: {
       type: String,
@@ -46,9 +48,15 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 )
 
+schema.pre('save', async function () {
+  if (!this.isModified('password')) return
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
+})
+
 schema.methods.comparePassword = async function (canditatePassword) {
   const isMatch = await bcrypt.compare(canditatePassword, this.password)
   return isMatch
 }
 
-module.exports = mongoose.model('Customer', schema)
+module.exports = mongoose.model('customer', schema)

@@ -14,8 +14,20 @@ const registerRestaurant = async (req, res) => {
   // take restaurant address details
   // take owner details
   // mark the restaurant registration is completed
-  const { restaurant_name, restaurant_address, owner, owner_address } = req.body
-  if (!restaurant_name || !restaurant_address || !owner || !owner_address) {
+  const {
+    restaurant_name,
+    restaurant_aboutus,
+    restaurant_address,
+    owner,
+    owner_address,
+  } = req.body
+  if (
+    !restaurant_name ||
+    !restaurant_aboutus ||
+    !restaurant_address ||
+    !owner ||
+    !owner_address
+  ) {
     throw new error.BadRequestError('Restaurant and owner details are required')
   }
   // save restaurant  address
@@ -30,6 +42,7 @@ const registerRestaurant = async (req, res) => {
     short_id,
     restaurant_slug,
     restaurant_name,
+    restaurant_aboutus,
     restaurant_address: _restaurant_address._id,
   })
   // save owner address

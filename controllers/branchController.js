@@ -48,7 +48,7 @@ const registerBranch = async (req, res) => {
 
   const {
     branch_name,
-    branch_description,
+    branch_aboutus,
     delivery,
     branch_address,
     manager,
@@ -56,7 +56,7 @@ const registerBranch = async (req, res) => {
   } = branch
   if (
     !branch_name ||
-    !branch_description ||
+    !branch_aboutus ||
     !branch_address ||
     !manager ||
     !manager_address
@@ -85,7 +85,7 @@ const registerBranch = async (req, res) => {
     branch_slug,
     branch_name,
     delivery,
-    branch_description,
+    branch_aboutus,
     restaurant_id,
     branch_address: _branch_address._id,
   })
@@ -129,9 +129,6 @@ const getBranch = async (req, res) => {
   }
   const branch = await BranchModel.findById(id)
   if (!branch) {
-    throw new error.NotFoundError('Branch not found')
-  }
-  if (branch.restaurant_id.toString() !== req.user.restaurant_id) {
     throw new error.NotFoundError('Branch not found')
   }
   const branch_address = await BranchAddressModel.findById(
@@ -180,12 +177,16 @@ const getBranchUsingSlug = async (req, res) => {
   const branch = await BranchModel.findOne({ branch_slug }).populate(
     'restaurant_id',
   )
+  const branch_address = await BranchAddressModel.findById(
+    branch?.branch_address,
+  )
   if (!branch) {
     throw new error.NotFoundError('Branch not found')
   }
 
   res.status(StatusCodes.OK).json({
     branch,
+    branch_address,
   })
 }
 

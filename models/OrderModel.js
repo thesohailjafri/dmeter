@@ -52,7 +52,7 @@ const schema = new mongoose.Schema(
     },
     order_source: {
       type: String,
-      enum: ['Organic', 'Zomato', 'Swiggy', 'Magic-Pin', 'Other'],
+      enum: ['Organic', 'Zomato', 'Swiggy', 'Magic-Pin', 'Org-Site', 'Other'],
       default: 'Organic',
     },
     order_note: {
@@ -113,6 +113,10 @@ const schema = new mongoose.Schema(
     send_notifications: {
       type: Boolean,
       default: false,
+    },
+    customer_id: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'customer_id',
     },
     restaurant_id: {
       type: mongoose.Schema.ObjectId,
