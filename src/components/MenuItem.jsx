@@ -3,7 +3,10 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { customerIdAtom } from '../recoil/atoms/customerAtom'
-import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
+import {
+  isOpenLoginPopUpAtom,
+  loginPopUpMsgAtom,
+} from '../recoil/atoms/loginAtom'
 
 export default function MenuItem({
   branch_id,
@@ -15,8 +18,12 @@ export default function MenuItem({
 }) {
   const [customerID, setCustomerID] = useRecoilState(customerIdAtom)
   const setLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
+  const setLoginPopUpMsg = useSetRecoilState(loginPopUpMsgAtom)
+
   const addItemToCart = () => {
     if (!customerID) {
+      console.log('here')
+      setLoginPopUpMsg('Please sign-in before adding item to your cart')
       setLoginPopUp(true)
     }
   }
@@ -49,7 +56,10 @@ export default function MenuItem({
                     <span>{price?.quantity}</span>
                     <span className="">₹{price?.amount}</span>
                     <span>
-                      <button className="cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-6 h-6 rounded m-0 text-white">
+                      <button
+                        onClick={() => addItemToCart(price)}
+                        className="cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-6 h-6 rounded m-0 text-white"
+                      >
                         +
                       </button>
                     </span>

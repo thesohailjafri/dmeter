@@ -39,6 +39,7 @@ const BranchPage = () => {
           setBranch(res.data.branch)
           setBranchAddress(res.data.branch_address)
           setBranchId(res.data.branch._id)
+          setHeroMenuItem(res.data.featuredItems)
         }
       }
     }
@@ -57,9 +58,6 @@ const BranchPage = () => {
       if (res) {
         if (res.status === 200) {
           setMenuItems(res.data.records)
-          if (heroMenuItem.length <= 4) {
-            setHeroMenuItem((ps) => [...ps, ...res.data.records].slice(0, 4))
-          }
         }
       }
     }

@@ -5,7 +5,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import RowContainer from './RowContainer'
 import MenuContainer from './MenuContainer'
 import CartContainer from './CartContainer'
-import LoginCard from './LoginCard'
+import LoginCard from './SigninCard'
 
 const MainContainer = () => {
   const [scrollValue, setScrollValue] = useState(0)

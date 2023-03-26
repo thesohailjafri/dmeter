@@ -1,15 +1,50 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function LoginCard() {
+export default function SignupCard() {
   return (
     <div class="max-w-2xl mx-auto">
-      <div class="bg-white  rounded-lg max-w-sm">
+      <div class="bg-white  rounded-lg">
         <form class="space-y-6" action="#">
           <h3 class="text-xl font-medium text-gray-900 ">
-            Sign in to our platform
+            Sign up to our platform
           </h3>
-
+          <div className="space-y-6 md:space-y-0 md:flex md:gap-6">
+            <div>
+              <label
+                for="firstname"
+                class="text-sm font-medium text-gray-900 block mb-2 "
+              >
+                Your Firstname
+              </label>
+              <input
+                type="tel"
+                name="firstname"
+                id="firstname"
+                pattern="[0-9]{10}"
+                class="bg-orange-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                placeholder="John"
+                required=""
+              />
+            </div>
+            <div>
+              <label
+                for="lastname"
+                class="text-sm font-medium text-gray-900 block mb-2 "
+              >
+                Your Lastname
+              </label>
+              <input
+                type="tel"
+                name="lastname"
+                id="lastname"
+                pattern="[0-9]{10}"
+                class="bg-orange-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                placeholder="Doe"
+                required=""
+              />
+            </div>
+          </div>
           <div>
             <label
               for="phone"
@@ -43,40 +78,17 @@ export default function LoginCard() {
               required=""
             />
           </div>
-          <div class="flex items-start">
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
-                <input
-                  id="remember"
-                  aria-describedby="remember"
-                  type="checkbox"
-                  class="bg-orange-50 border accent-orange-600 border-gray-300 focus:ring-3 focus:ring-orange-300 h-4 w-4 rounded "
-                  required=""
-                />
-              </div>
-              <div class="text-sm ml-3">
-                <label for="remember" class="font-medium text-gray-900 ">
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <Link
-              to="/resetpass"
-              class="text-sm text-orange-600 hover:underline ml-auto "
-            >
-              Forgot Password?
-            </Link>
-          </div>
+
           <button
             type="submit"
             class="w-full text-white bg-gradient-to-br from-orange-400 to-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
-            Login to your account
+            Register your account
           </button>
           <div class="text-sm font-medium text-gray-500 ">
-            Not registered?{' '}
-            <Link to="/signup" class="text-orange-600 hover:underline ">
-              Create account
+            Already have accout?{' '}
+            <Link to="/signin" class="text-orange-600 hover:underline ">
+              Sign-in
             </Link>
           </div>
         </form>

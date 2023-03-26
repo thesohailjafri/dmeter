@@ -21,7 +21,7 @@ export default function HeroMenuitem({
         whileHover={{ scale: 1.05 }}
         key={id}
         // className="h-full p-4 bg-red-100 backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
-        className="  xl:w-200  p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
+        className="h-full lg:w-190 xl:w-200 p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col drop-shadow-lg"
       >
         <img
           src={
@@ -43,7 +43,7 @@ export default function HeroMenuitem({
               <span className="">₹{minAmountItem?.amount}</span>
               <span>
                 <button className="px-2 py-1 cursor-pointer bg-gradient-to-br from-orange-400 to-orange-500 font-semibold rounded m-0 text-white">
-                  + Add
+                  +
                 </button>
               </span>
             </div>

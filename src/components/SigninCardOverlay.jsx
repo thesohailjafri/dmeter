@@ -1,14 +1,19 @@
 import React from 'react'
-import LoginCard from './LoginCard'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useRecoilState } from 'recoil'
-import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
+import {
+  isOpenLoginPopUpAtom,
+  loginPopUpMsgAtom,
+} from '../recoil/atoms/loginAtom'
+import SigninCard from './SigninCard'
 
-export default function LoginCardOverlay() {
+export default function SigninCardOverlay() {
   const [isLoginOpen, setisLoginOpen] = useRecoilState(isOpenLoginPopUpAtom)
+  const [loginPopUpMsg, setLoginPopUpMsg] = useRecoilState(loginPopUpMsgAtom)
 
   function closeModal() {
+    setLoginPopUpMsg('')
     setisLoginOpen(false)
   }
 
@@ -44,7 +49,7 @@ export default function LoginCardOverlay() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <LoginCard />
+                  <SigninCard />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
