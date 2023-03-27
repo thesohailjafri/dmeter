@@ -35,7 +35,7 @@ export default function HomePage() {
           <h1 className="flex justify-center items-center gap-3 text-[2.5rem] lg:text-[4.5rem] font-bold tracking-wide -mb-6 text-headingColor">
             <img src={Logo} className="w-12 object-cover" alt="logo" /> Dmeter
           </h1>
-          <p className="text-md lg:text-xl">
+          <p className="text-md lg:text-xl text-textColor">
             Welcome to <span className="text-orange-600 font-bold">Dmeter</span>
             , the ultimate restaurant management solution.
             <br /> Our powerful SaaS application can{' '}
