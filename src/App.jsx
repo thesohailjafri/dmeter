@@ -9,6 +9,7 @@ import {
   BranchMenuPage,
   BranchOrdersPage,
   BranchPage,
+  HomePage,
   NotFoundPage,
   ResetPasswordPage,
   SigninPage,
@@ -23,7 +24,7 @@ const App = () => {
         <div className="container mx-auto">
           <main className="mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
             <Routes>
-              <Route exact path="/" element={<MainContainer />} />
+              <Route exact path="/" element={<HomePage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/resetpass" element={<ResetPasswordPage />} />
