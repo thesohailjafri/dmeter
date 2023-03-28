@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { MainContainer } from './components'
+import { SigninCardOverlay } from './components'
 
 import {
   AboutUsPage,
@@ -12,6 +12,8 @@ import {
   HomePage,
   NotFoundPage,
   ResetPasswordPage,
+  RestaurantsPage,
+  SearchPage,
   SigninPage,
   SignupPage,
 } from './pages'
@@ -20,15 +22,37 @@ import { AuthWrapper } from './layout'
 const App = () => {
   return (
     <AnimatePresence exitBeforeEnter>
-      <div className="w-screen min-h-screen flex flex-col ">
+      <SigninCardOverlay />
+
+      <div className="w-screen flex flex-col ">
         <div className="container mx-auto">
           <main className="mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
             <Routes>
-              <Route exact path="/" element={<HomePage />} />
-              <Route path="/signin" element={<SigninPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/resetpass" element={<ResetPasswordPage />} />
-              <Route path="/about" element={<AboutUsPage />} />
+              <Route
+                exact
+                path="/"
+                element={
+                  <AuthWrapper>
+                    <HomePage />
+                  </AuthWrapper>
+                }
+              />
+
+              <Route exact path="/signin" element={<SigninPage />} />
+              <Route exact path="/signup" element={<SignupPage />} />
+              <Route exact path="/resetpass" element={<ResetPasswordPage />} />
+              <Route exact path="/about" element={<AboutUsPage />} />
+              <Route exact path="/search" element={<SearchPage />} />
+
+              <Route
+                exact
+                path="/restaurants"
+                element={
+                  <AuthWrapper>
+                    <RestaurantsPage />
+                  </AuthWrapper>
+                }
+              />
 
               {/* auth routes */}
               <Route

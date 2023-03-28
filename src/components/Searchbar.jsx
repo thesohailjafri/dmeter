@@ -1,34 +1,49 @@
 import React from 'react'
 import { FiSearch } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { searchKeywordAtom } from '../recoil/atoms/searchAtom'
 export default function Searchbar() {
+  const navigate = useNavigate()
+
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordAtom)
+
+  const search = () => {
+    navigate(`/search?keyword=${searchKeyword}`)
+  }
+
+  const handleTermChange = (e) => {
+    setSearchKeyword(e.target.value)
+  }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      search()
+    }
+  }
   return (
     <div className="w-full">
-      <form>
+      <div className="relative">
         <label
           for="default-search"
-          class="mb-2 text-sm font-medium text-orange-900 sr-only dark:text-white"
+          className="mb-2 text-sm font-medium text-orange-900 sr-only"
         >
           Search
         </label>
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <FiSearch className=" text-orange-600" size={20} />
-          </div>
+        <div className="relative">
           <input
             type="search"
             id="default-search"
-            class="block w-full p-4 pl-10 text-headingColor border border-orange-300 rounded-lg bg-orange-50 focus:ring-orange-500 focus:border-orange-500 "
+            className="accent-orange-600 block w-full p-2 pl-10 text-headingColor border border-orange-300 rounded-lg bg-cardOverlay backdrop-blur-md focus:outline-none"
             placeholder="Search..."
-            required
+            value={searchKeyword}
+            onChange={handleTermChange}
+            onKeyUp={handleKeyPress}
           />
-          <button
-            type="submit"
-            class="text-white absolute right-2.5 bottom-2.5 bg-orange-600 hover:bg-orange-700 transition-all ease-in-out focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 "
-          >
-            Search
-          </button>
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <FiSearch className=" text-orange-600" size={20} />
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   )
 }

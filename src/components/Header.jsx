@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MdShoppingBasket, MdAdd, MdLogout } from 'react-icons/md'
+import { MdShoppingBasket, MdAdd, MdLogout, MdLogin } from 'react-icons/md'
 import { FaRegUser } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
@@ -8,10 +8,20 @@ import Avatar from '../img/avatar.png'
 import { Link, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import CartContainer from './CartContainer'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { showCartAtom } from '../recoil/atoms/cartAtom'
+import {
+  customerEmailAtom,
+  customerFirstnameAtom,
+  customerIdAtom,
+  customerLastnameAtom,
+  customerPhoneAtom,
+} from '../recoil/atoms/customerAtom'
+import Searchbar from './Searchbar'
+import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
+import { toast } from 'react-toastify'
 
-const Header = () => {
+const Header = ({ showSearch = true }) => {
   const location = useLocation()
   const navMenuItem = [
     {
@@ -20,31 +30,23 @@ const Header = () => {
       url: '/',
     },
     {
-      title: 'Resturants',
-      page: 'resturants',
-      url: '/resturants',
-    },
-    {
-      title: 'Search',
-      page: 'search',
-      url: '/resturants',
+      title: 'Restaurants',
+      page: 'restaurants',
+      url: '/restaurants',
     },
     {
       title: 'About Us',
       page: 'about',
       url: '/about',
     },
-    {
-      title: 'Sign In',
-      page: 'signin',
-      url: '/signin',
-    },
-    {
-      title: 'Sign Up',
-      page: 'signup',
-      url: '/signup',
-    },
   ]
+  const setCustomerFirstname = useSetRecoilState(customerFirstnameAtom)
+  const setCustomerLastname = useSetRecoilState(customerLastnameAtom)
+  const setCustomerEmail = useSetRecoilState(customerEmailAtom)
+  const setCustomerPhone = useSetRecoilState(customerPhoneAtom)
+  const setIsOpenLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
+  const [customerID, setCustomerId] = useRecoilState(customerIdAtom)
+
   const [page, setPage] = useState('')
   const [isMenu, setIsMenu] = useState(false)
   const cartItems = []
@@ -69,8 +71,17 @@ const Header = () => {
     localStorage.clear()
   }
 
-  const handleUserIconClick = () => {
-    setIsMenu(!isMenu)
+  const handleLogout = () => {
+    localStorage.removeItem('customer_token')
+    setCustomerId('')
+    setCustomerFirstname('')
+    setCustomerLastname('')
+    setCustomerEmail('')
+    setCustomerPhone('')
+    toast.success('Signed-out')
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000)
   }
 
   useEffect(() => {
@@ -81,14 +92,20 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-10 w-screen p-3 px-4 md:p-6 md:px-16 bg-orange-50 border-b-4 border-orange-100">
+      <header className="fixed top-0 left-0 z-10 w-screen p-3 px-4 md:p-6 md:px-16 bg-cardOverlay backdrop-blur-md border-b-4 border-orange-100">
         {/* desktop & tablet */}
         <div className="container mx-auto hidden md:flex items-center justify-between">
           <Link to={'/'} className="flex items-center gap-2">
             <img src={Logo} className="w-8 object-cover" alt="logo" />
             <p className="text-headingColor text-xl font-bold">Dmeter</p>
           </Link>
-
+          {showSearch ? (
+            <div className="hidden xl:block">
+              <Searchbar />
+            </div>
+          ) : (
+            ''
+          )}
           <div className="flex items-center gap-8">
             <motion.ul
               initial={{ opacity: 0, x: 200 }}
@@ -111,6 +128,37 @@ const Header = () => {
                   </li>
                 </Link>
               ))}
+              {customerID ? (
+                <>
+                  <Link to="/myorders">
+                    <li
+                      className={classNames(
+                        'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                        {
+                          'underline underline-offset-8 decoration-orange-400 decoration-4 font-bold':
+                            page === 'myorders',
+                        },
+                      )}
+                    >
+                      My Orders
+                    </li>
+                  </Link>
+                  <button className="calltoaction-btn" onClick={handleLogout}>
+                    <MdLogout />
+                    Sign-Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="calltoaction-btn"
+                    onClick={() => setIsOpenLoginPopUp(true)}
+                  >
+                    <MdLogin />
+                    Sign-In
+                  </button>
+                </>
+              )}
             </motion.ul>
           </div>
         </div>

@@ -113,7 +113,7 @@ export default function BranchMenuPage() {
               </div>
             ) : (
               <div className="w-full flex flex-col items-center justify-center">
-                <img alt="Not Found" src={NotFound} className="h-340" />
+                <img alt="Not Found" src={NotFound} className="h-150" />
                 <p className="text-xl text-headingColor font-semibold my-2">
                   Items Not Available
                 </p>

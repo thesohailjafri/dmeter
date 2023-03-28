@@ -23,5 +23,9 @@ const endpoints = {
     index: `${backend_api}/menu/`,
     category: `${backend_api}/menu/category/`,
   },
+  search: {
+    index: `${backend_api}/search/`,
+    rnb: `${backend_api}/search/rnb/`,
+  },
 }
 export default endpoints

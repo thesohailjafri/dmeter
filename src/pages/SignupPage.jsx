@@ -1,7 +1,12 @@
 import React from 'react'
+import { useEffect } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { Header, SignupCard } from '../components'
+import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
 
 export default function SignupPage() {
+  const setIsOpenLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
+  useEffect(() => setIsOpenLoginPopUp(false), [])
   return (
     <div>
       <Header />

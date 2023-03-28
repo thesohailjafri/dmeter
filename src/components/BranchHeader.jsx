@@ -10,7 +10,6 @@ import classNames from 'classnames'
 import CartContainer from './CartContainer'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { showCartAtom } from '../recoil/atoms/cartAtom'
-import LoginCardOverlay from './SigninCardOverlay'
 import {
   customerEmailAtom,
   customerFirstnameAtom,
@@ -22,6 +21,7 @@ import {
 import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
 import { Dialog } from '@headlessui/react'
 import { toast } from 'react-toastify'
+import Searchbar from './Searchbar'
 
 const Header = ({
   restaurantName,
@@ -116,9 +116,7 @@ const Header = ({
 
   return (
     <>
-      <LoginCardOverlay />
-
-      <header className="fixed top-0 left-0 z-10 w-screen p-3 px-4 md:p-6 md:px-16 bg-orange-50 border-b-4 border-orange-100">
+      <header className="fixed top-0 left-0 z-10 w-screen p-3 px-4 md:p-6 md:px-16 bg-cardOverlay backdrop-blur-md border-b-4 border-orange-100">
         {/* desktop & tablet */}
         <div className="container mx-auto hidden md:flex items-center justify-between">
           <Link to={'/'} className="flex items-center gap-2">
@@ -128,7 +126,9 @@ const Header = ({
               <span className="text-orange-600">{branchName || 'Branch'}</span>)
             </p>
           </Link>
-
+          <div className="hidden xl:block">
+            <Searchbar />
+          </div>
           <div className="flex items-center gap-8">
             <motion.ul
               initial={{ opacity: 0, x: 200 }}
