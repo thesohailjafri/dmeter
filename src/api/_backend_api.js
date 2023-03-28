@@ -1,6 +1,6 @@
 let hostname = window.location.hostname;
-const localUrl = "http://localhost:5000/api";
-const liveUrl = "https://dmeter-api.herokuapp.com/api";
+const localUrl = process.env.REACT_APP_LOCAL_SERVER;
+const liveUrl = process.env.REACT_APP_LIVE_SERVER;
 
 let _backend_api;
 
@@ -9,5 +9,7 @@ if (hostname === "localhost") {
 } else {
     _backend_api = liveUrl;
 }
+
+_backend_api += "api";
 
 export default _backend_api;
