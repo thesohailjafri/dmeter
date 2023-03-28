@@ -46,5 +46,6 @@ const schema = new mongoose.Schema(
 )
 // to keep resturant branch name unqiue
 schema.index({ restaurant_id: 1, branch_name: 1 }, { unique: true })
+schema.index({ branch_slug: 'text', branch_name: 'text' })
 
 module.exports = mongoose.model('branch', schema)

@@ -37,5 +37,6 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 )
 // schema.index({ restaurant_name: 1, owner: 1 }, { unique: true })
+schema.index({ restaurant_slug: 'text', restaurant_name: 'text' })
 
 module.exports = mongoose.model('restaurant', schema)

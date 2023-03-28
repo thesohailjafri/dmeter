@@ -8,18 +8,18 @@ const searchResturantAndBranches = async (req, res) => {
   if (!keyword) {
     throw new error.BadRequestError('Keyword is required')
   }
-
-  const [resturants, branches] = await Promise.all([
-    await RestaurantModel.find({
-      restaurant_name: { $regex: keyword, $options: 'i' },
-    }).select('restaurant_name restaurant_slug'),
-    await BranchModel.find({
-      branch_name: { $regex: keyword, $options: 'i' },
-    }).select('branch_slug branch_name'),
+  console.log({ keyword })
+  const [restaurant, branches] = await Promise.all([
+    await RestaurantModel.find({ $text: { $search: keyword } }).populate(
+      'restaurant_address',
+    ),
+    await BranchModel.find({ $text: { $search: keyword } })
+      .populate('restaurant_id')
+      .populate('branch_address'),
   ])
 
   res.status(StatusCodes.OK).json({
-    resturants,
+    restaurant,
     branches,
   })
 }
