@@ -1,3 +1,4 @@
+const buildPathMiddleware = require('../middlewares/buildPathMiddleware')
 const restaurantRouter = require('./restaurantRouter')
 const branchRouter = require('./branchRouter')
 const staffRouter = require('./staffRouter')
@@ -8,9 +9,13 @@ const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware')
 const { authUserMiddleware } = require('../middlewares/authMiddleware')
 const orderRouter = require('./orderRouter')
 const searchRouter = require('./searchRouter')
-
+const express = require('express'),
+  path = require('path'),
+  buildPath = path.normalize(
+    path.join(__dirname, '..', process.env.RENDER_BUILD),
+  )
 const apiRouter = (app) => {
-  app.get('/', (_, res) => res.send('Dmeter'))
+  app.use('/', express.static(buildPath))
   app.use('/api/auth/', authRouter)
   app.use('/api/search/', searchRouter)
   app.use('/api/restaurant/', restaurantRouter)
@@ -20,6 +25,7 @@ const apiRouter = (app) => {
   app.use('/api/staff/', authUserMiddleware, staffRouter)
 
   // post m.w
+  app.use(buildPathMiddleware)
   app.use(notFoundMiddleware)
   app.use(errorHandlerMiddleware)
 }
