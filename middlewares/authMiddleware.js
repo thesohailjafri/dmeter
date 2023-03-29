@@ -35,4 +35,26 @@ const authCustomerMiddleware = async (req, _, next) => {
   next()
 }
 
-module.exports = { authUserMiddleware, authCustomerMiddleware }
+const parseCustomerMiddleware = async (req, _, next) => {
+  const bearerHeader = req.headers['authorization']
+  if (!bearerHeader || bearerHeader.split(' ')[0] !== 'Bearer') {
+    return next()
+  }
+
+  const bearer = bearerHeader.split(' ')
+  const bearerToken = bearer[1]
+  if (!bearerToken || bearerToken === 'null') {
+    return next()
+  }
+
+  const decoded = jwt.decode(bearerToken, process.env.JWT_SECRET)
+  if (decoded) {
+    req.customer = { ...createTokenCustomer(decoded) }
+  }
+  next()
+}
+module.exports = {
+  authUserMiddleware,
+  authCustomerMiddleware,
+  parseCustomerMiddleware,
+}

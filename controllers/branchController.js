@@ -10,6 +10,7 @@ const BranchAddressModel = require('../models/BranchAddressModel')
 const AddressModel = require('../models/AddressModel')
 const shortid = require('shortid')
 const MenuitemModel = require('../models/MenuitemModel')
+const CartModel = require('../models/CartModel')
 shortid.characters(
   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@',
 )
@@ -172,6 +173,8 @@ const getBranchMenuitems = async (req, res) => {
 
 const getBranchUsingSlug = async (req, res) => {
   const { slug: branch_slug } = req.params
+  const { _id: customer_id } = req.customer || {}
+
   if (!branch_slug) {
     throw new error.BadRequestError('slug is required')
   }
@@ -187,10 +190,15 @@ const getBranchUsingSlug = async (req, res) => {
       .sort('-createdAt')
       .limit(4),
   ])
+  let cart = {}
+  if (customer_id) {
+    cart = await CartModel.findOne({ branch_id: branch._id, customer_id })
+  }
   res.status(StatusCodes.OK).json({
     branch,
     branch_address,
     featuredItems,
+    cart,
   })
 }
 

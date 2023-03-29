@@ -2,13 +2,15 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
-    items: [
+    products: [
       {
-        menuitem_id: { type: mongoose.Schema.ObjectId, ref: 'menuitem' },
-        quantity: {
-          type: Number,
-          default: 1,
-        },
+        product_id: { type: mongoose.Schema.ObjectId, ref: 'menuitem' },
+        product_name: String,
+        product_category: String,
+        quantity: String,
+        quantity_count: { type: Number, default: 1 },
+        amount: Number,
+        discount: Number,
       },
     ],
     discount: {
