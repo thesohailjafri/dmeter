@@ -6,14 +6,17 @@ import { getBranchUsingSlugApi } from '../../api'
 import { BranchHeader } from '../../components'
 import { BsTelephoneOutboundFill, BsFillMapFill } from 'react-icons/bs'
 import ReadMoreReact from 'read-more-react/dist/components/ReadMoreReact'
+import { cartAtom } from '../../recoil/atoms/cartAtom'
+import { useSetRecoilState } from 'recoil'
 
 export default function BranchAboutUsPage() {
   const params = useParams()
   const { branch_slug } = params
   const [branch_id, setBranchId] = useState('')
   const [branch, setBranch] = useState({})
-
   const [branchAddress, setBranchAddress] = useState({})
+  const setCartAtom = useSetRecoilState(cartAtom)
+
   useEffect(() => {
     if (!branch_slug) return
     const getData = async () => {
@@ -23,6 +26,7 @@ export default function BranchAboutUsPage() {
           setBranch(res.data.branch)
           setBranchAddress(res.data.branch_address)
           setBranchId(res.data.branch._id)
+          setCartAtom(res.data.cart)
         }
       }
     }
@@ -34,6 +38,7 @@ export default function BranchAboutUsPage() {
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
         branch_slug={branch_slug}
+        branch_id={branch_id}
       />
       <div>
         <div className="w-full">

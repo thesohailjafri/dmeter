@@ -4,6 +4,8 @@ import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
 import { BranchHeader, MenuItem } from '../../components'
 import { motion } from 'framer-motion'
 import NotFound from '../../img/NotFound.svg'
+import { useSetRecoilState } from 'recoil'
+import { cartAtom } from '../../recoil/atoms/cartAtom'
 
 export default function BranchMenuPage() {
   const params = useParams()
@@ -13,6 +15,7 @@ export default function BranchMenuPage() {
   const [categories, setCategories] = useState([])
   const [branch_id, setBranchId] = useState('')
   const [menuItems, setMenuItems] = useState([])
+  const setCartAtom = useSetRecoilState(cartAtom)
 
   useEffect(() => {
     if (!branch_slug) return
@@ -22,6 +25,7 @@ export default function BranchMenuPage() {
         if (res.status === 200) {
           setBranch(res.data.branch)
           setBranchId(res.data.branch._id)
+          setCartAtom(res.data.cart)
         }
       }
     }
@@ -82,6 +86,7 @@ export default function BranchMenuPage() {
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
         branch_slug={branch_slug}
+        branch_id={branch_id}
       />
       <div>
         <div className="w-full">
@@ -96,8 +101,9 @@ export default function BranchMenuPage() {
                     <div className="container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mx-auto">
                       {menuItem.categoryItems.map((item) => (
                         <MenuItem
+                          data={item}
                           branch_id={branch_id}
-                          id={item?.id}
+                          id={item?._id}
                           thumbnail={item?.thumbnail}
                           name={item?.name}
                           category={item?.category_id?.name}

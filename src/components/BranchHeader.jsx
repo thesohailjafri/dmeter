@@ -7,9 +7,12 @@ import Logo from '../img/logo.png'
 import Avatar from '../img/avatar.png'
 import { Link, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
-import CartContainer from './CartContainer'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { showCartAtom } from '../recoil/atoms/cartAtom'
+import {
+  cartAtom,
+  cartItemCountAtom,
+  showCartAtom,
+} from '../recoil/atoms/cartAtom'
 import {
   customerEmailAtom,
   customerFirstnameAtom,
@@ -22,8 +25,14 @@ import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
 import { Dialog } from '@headlessui/react'
 import { toast } from 'react-toastify'
 import Searchbar from './Searchbar'
+import { BranchCart } from '.'
 
-const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
+const BranchHeader = ({
+  restaurantName,
+  branchName,
+  branch_slug,
+  branch_id,
+}) => {
   const location = useLocation()
   const navMenuItem = [
     {
@@ -60,6 +69,7 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
   const setIsOpenLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
 
   const [customerID, setCustomerId] = useRecoilState(customerIdAtom)
+  const cart = useRecoilValue(cartAtom)
 
   const setShowCart = useSetRecoilState(showCartAtom)
   const [page, setPage] = useState('')
@@ -159,29 +169,28 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
                   Sign-In
                 </button>
               )}
+              {customerID && (
+                <>
+                  <div
+                    className="relative flex items-center justify-center"
+                    onClick={handleShowCart}
+                  >
+                    <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
+                    {cart.products && cart.products.length > 0 && (
+                      <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+                        <p className="text-xs text-white font-semibold">
+                          {cart.products.length}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <button className="calltoaction-btn" onClick={handleLogout}>
+                    <MdLogout />
+                    Sign-Out
+                  </button>
+                </>
+              )}
             </motion.ul>
-
-            {customerID && (
-              <>
-                <div
-                  className="relative flex items-center justify-center"
-                  onClick={handleShowCart}
-                >
-                  <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
-                  {cartItems && cartItems.length > 0 && (
-                    <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
-                      <p className="text-xs text-white font-semibold">
-                        {cartItems.length}
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <button className="calltoaction-btn" onClick={handleLogout}>
-                  <MdLogout />
-                  Sign-Out
-                </button>
-              </>
-            )}
           </div>
         </div>
 
@@ -267,7 +276,7 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
           </div>
         </div>
       </header>
-      <CartContainer />
+      <BranchCart branch_id={branch_id} />
     </>
   )
 }

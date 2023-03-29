@@ -5,7 +5,7 @@ export const showCartAtom = atom({
   default: false,
 })
 
-export const cartItemCountAtom = atom({
-  key: 'cartItemCountAtom',
-  default: 0,
+export const cartAtom = atom({
+  key: 'cartAtom',
+  default: {},
 })

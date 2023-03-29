@@ -1,23 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  BranchHeader,
-  HeroMenuitem,
-  HomeContainer,
-  MenuContainer,
-  MenuItem,
-} from '../../components'
+import { BranchHeader, MenuItem } from '../../components'
 import { useParams } from 'react-router-dom'
 import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
 import HeroBg from '../../img/restaurant_orange_500_fade.png'
-import { heroData } from '../../utils/data'
 import Delivery from '../../img/delivery.png'
 import { IoFastFood } from 'react-icons/io5'
 import NotFound from '../../img/NotFound.svg'
 import ReadMoreReact from 'read-more-react/dist/components/ReadMoreReact'
 import { BsFillMapFill, BsTelephoneOutboundFill } from 'react-icons/bs'
 import { IoMdBasket } from 'react-icons/io'
-import { showCartAtom } from '../../recoil/atoms/cartAtom'
+import { cartAtom, showCartAtom } from '../../recoil/atoms/cartAtom'
 import { useSetRecoilState } from 'recoil'
 const BranchPage = () => {
   const rowContainer = useRef()
@@ -26,6 +19,7 @@ const BranchPage = () => {
   const [branch_id, setBranchId] = useState('')
   const [branch, setBranch] = useState({})
   const [branchAddress, setBranchAddress] = useState({})
+  const setCartAtom = useSetRecoilState(cartAtom)
   const setShowCart = useSetRecoilState(showCartAtom)
 
   const [heroMenuItem, setHeroMenuItem] = useState([])
@@ -44,6 +38,7 @@ const BranchPage = () => {
           setBranchAddress(res.data.branch_address)
           setBranchId(res.data.branch._id)
           setHeroMenuItem(res.data.featuredItems)
+          setCartAtom(res.data.cart)
         }
       }
     }
@@ -99,6 +94,7 @@ const BranchPage = () => {
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
         branch_slug={branch_slug}
+        branch_id={branch_id}
       />
       <div className="h-auto flex flex-col items-center justify-center ">
         <section
@@ -189,9 +185,11 @@ const BranchPage = () => {
 
             <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center py-4 gap-4 flex-wrap">
               {heroMenuItem.map((item) => (
-                <HeroMenuitem
+                <MenuItem
+                  isHeroCard={true}
+                  data={item}
                   branch_id={branch_id}
-                  id={item?.id}
+                  id={item?._id}
                   thumbnail={item?.thumbnail}
                   name={item?.name}
                   category={item?.category_id?.name}
@@ -255,8 +253,9 @@ const BranchPage = () => {
                   <div className="container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mx-auto">
                     {menuItems.map((item) => (
                       <MenuItem
+                        data={item}
                         branch_id={branch_id}
-                        id={item?.id}
+                        id={item?._id}
                         thumbnail={item?.thumbnail}
                         name={item?.name}
                         category={item?.category_id?.name}

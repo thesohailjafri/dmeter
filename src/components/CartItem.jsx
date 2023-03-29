@@ -1,54 +1,77 @@
 import React, { useEffect, useState } from 'react'
 import { BiMinus, BiPlus } from 'react-icons/bi'
 import { motion } from 'framer-motion'
+import { updateCustomerCartApi } from '../api'
+import { customerIdAtom } from '../recoil/atoms/customerAtom'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { cartAtom } from '../recoil/atoms/cartAtom'
 let items = []
 
-const CartItem = ({ item, setFlag, flag }) => {
-  const [qty, setQty] = useState(item.qty)
-
-  const cartDispatch = () => {
-    localStorage.setItem('cartItems', JSON.stringify(items))
+const CartItem = ({ product, branch_id }) => {
+  const {
+    product_id,
+    product_name,
+    product_category,
+    quantity,
+    quantity_count,
+    amount,
+    discount,
+  } = product
+  const setCart = useSetRecoilState(cartAtom)
+  const [loading, setLoading] = useState(false)
+  const updateItem = async (operation) => {
+    setLoading(true)
+    const res = await updateCustomerCartApi(operation, {
+      branch_id,
+      product_id,
+      product_name,
+      product_category,
+      quantity,
+      amount,
+      discount,
+    })
+    if (res) {
+      setLoading(false)
+      if (res.status === 201) {
+        setCart(res.data)
+      }
+    }
   }
 
-  const updateQty = (action, id) => {}
-
-  useEffect(() => {}, [])
-
   return (
-    <div className="w-full p-1 px-2 rounded-lg bg-cartItem flex items-center gap-2">
-      <img
-        src={item?.imageURL}
-        className="w-20 h-20 max-w-[60px] rounded-full object-contain"
-        alt=""
-      />
-
+    <div className="w-full px-4 py-2 rounded-lg bg-orange-700 flex items-center justify-between gap-2">
       {/* name section */}
       <div className="flex flex-col gap-2">
-        <p className="text-base text-gray-50">{item?.title}</p>
-        <p className="text-sm block text-gray-300 font-semibold">
-          $ {parseFloat(item?.price) * qty}
-        </p>
+        <p className="text-base">{product_name}</p>
+        <p className="text-md block text-orange-100 font-semibold">₹{amount}</p>
       </div>
 
       {/* button section */}
-      <div className="group flex items-center gap-2 ml-auto cursor-pointer">
-        <motion.div
-          whileTap={{ scale: 0.75 }}
-          onClick={() => updateQty('remove', item?.id)}
-        >
-          <BiMinus className="text-gray-50 " />
-        </motion.div>
+      <div className="flex flex-col items-center gap-2 ">
+        <div className="group flex gap-2 ml-auto cursor-pointer">
+          <motion.button
+            whileTap={{ scale: 0.75 }}
+            onClick={() => updateItem('removeItem')}
+          >
+            <BiMinus className=" " />
+          </motion.button>
 
-        <p className="w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center">
-          {qty}
-        </p>
+          <p className="w-10 h-6 rounded-sm bg-orange-900  flex items-center justify-center">
+            {quantity_count}
+          </p>
 
-        <motion.div
-          whileTap={{ scale: 0.75 }}
-          onClick={() => updateQty('add', item?.id)}
-        >
-          <BiPlus className="text-gray-50 " />
-        </motion.div>
+          <motion.button
+            whileTap={{ scale: 0.75 }}
+            onClick={() => updateItem('addItem')}
+          >
+            <BiPlus className=" " />
+          </motion.button>
+        </div>
+        <div>
+          <p className="text-md block text-orange-100 font-semibold">
+            ₹{parseFloat(amount) * quantity_count}
+          </p>
+        </div>
       </div>
     </div>
   )

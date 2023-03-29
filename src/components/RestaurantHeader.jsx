@@ -7,7 +7,6 @@ import Logo from '../img/logo.png'
 import Avatar from '../img/avatar.png'
 import { Link, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
-import CartContainer from './CartContainer'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { showCartAtom } from '../recoil/atoms/cartAtom'
 import {
@@ -259,7 +258,6 @@ const RestutantHeader = ({
           </div>
         </div>
       </header>
-      <CartContainer />
     </>
   )
 }

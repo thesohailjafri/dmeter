@@ -2,8 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 import { getBranchUsingSlugApi } from '../../api'
 import { BranchHeader } from '../../components'
+import { cartAtom } from '../../recoil/atoms/cartAtom'
 
 export default function BranchOrdersPage() {
   const params = useParams()
@@ -11,6 +13,7 @@ export default function BranchOrdersPage() {
   const [branch_id, setBranchId] = useState('')
   const [branch, setBranch] = useState({})
   const [branchAddress, setBranchAddress] = useState({})
+  const setCartAtom = useSetRecoilState(cartAtom)
   useEffect(() => {
     if (!branch_slug) return
     const getData = async () => {
@@ -20,6 +23,7 @@ export default function BranchOrdersPage() {
           setBranch(res.data.branch)
           setBranchAddress(res.data.branch_address)
           setBranchId(res.data.branch._id)
+          setCartAtom(res.data.cart)
         }
       }
     }
@@ -31,6 +35,7 @@ export default function BranchOrdersPage() {
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
         branch_slug={branch_slug}
+        branch_id={branch_id}
       />
     </div>
   )
