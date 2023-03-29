@@ -7,6 +7,7 @@ const endpoints = {
   },
   restaurant: {
     index: `${backend_api}/restaurant/`,
+    slug: `${backend_api}/restaurant/slug/`,
   },
   branch: {
     index: `${backend_api}/branch/`,

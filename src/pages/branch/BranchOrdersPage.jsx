@@ -30,10 +30,7 @@ export default function BranchOrdersPage() {
       <BranchHeader
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
-        homeUrl={`/branch/${branch_slug}`}
-        menuUrl={`/menu/${branch_slug}`}
-        aboutUsUrl={`/about/${branch_slug}`}
-        orderUrl={`/orders/${branch_slug}`}
+        branch_slug={branch_slug}
       />
     </div>
   )

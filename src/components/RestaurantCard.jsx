@@ -7,6 +7,7 @@ export default function RestaurantCard({
   addressline,
   city,
   state,
+  country,
 }) {
   return (
     <div>
@@ -25,7 +26,7 @@ export default function RestaurantCard({
             <div>
               <p className="text-textColor">{addressline}</p>
               <p className="text-orange-600">
-                {city}, {state}
+                {city}, {state}, {country}
               </p>
             </div>
           </div>

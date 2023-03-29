@@ -23,7 +23,11 @@ import { Dialog } from '@headlessui/react'
 import { toast } from 'react-toastify'
 import Searchbar from './Searchbar'
 
-const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
+const RestutantHeader = ({
+  restaurantName,
+
+  restaurant_slug,
+}) => {
   const location = useLocation()
   const navMenuItem = [
     {
@@ -32,27 +36,16 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
       url: '/',
     },
     {
-      title: 'Branch',
-      page: branch_slug,
-      url: `/branch/${branch_slug}`,
-    },
-    {
-      title: 'Menu',
-      page: 'menu',
-      url: `/branch/menu/${branch_slug}`,
-    },
-    {
-      title: 'Orders',
-      page: 'orders',
-      url: `/branch/orders/${branch_slug}`,
+      title: 'Restaurant',
+      page: restaurant_slug,
+      url: `/restaurant/${restaurant_slug}`,
     },
     {
       title: 'About Us',
       page: 'about',
-      url: `/branch/about/${branch_slug}`,
+      url: `/restaurant/about/${restaurant_slug}`,
     },
   ]
-
   const setCustomerFirstname = useSetRecoilState(customerFirstnameAtom)
   const setCustomerLastname = useSetRecoilState(customerLastnameAtom)
   const setCustomerEmail = useSetRecoilState(customerEmailAtom)
@@ -121,8 +114,7 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
           <Link to={'/'} className="flex items-center gap-2">
             <img src={Logo} className="w-8 object-cover" alt="logo" />
             <p className="text-headingColor text-xl font-bold">
-              {restaurantName || 'Restaurant'} (
-              <span className="text-orange-600">{branchName || 'Branch'}</span>)
+              {restaurantName || 'Restaurant'}
             </p>
           </Link>
           <div className="hidden xl:block">
@@ -272,4 +264,4 @@ const BranchHeader = ({ restaurantName, branchName, branch_slug }) => {
   )
 }
 
-export default BranchHeader
+export default RestutantHeader

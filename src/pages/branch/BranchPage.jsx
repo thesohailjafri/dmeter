@@ -9,17 +9,18 @@ import {
 } from '../../components'
 import { useParams } from 'react-router-dom'
 import { getBranchUsingSlugApi, getMenu, getMenuCategories } from '../../api'
-import HeroBg from '../../img/heroBg.png'
+import HeroBg from '../../img/restaurant_orange_500_fade.png'
 import { heroData } from '../../utils/data'
 import Delivery from '../../img/delivery.png'
 import { IoFastFood } from 'react-icons/io5'
 import NotFound from '../../img/NotFound.svg'
 import ReadMoreReact from 'read-more-react/dist/components/ReadMoreReact'
-import { BsTelephoneOutboundFill } from 'react-icons/bs'
+import { BsFillMapFill, BsTelephoneOutboundFill } from 'react-icons/bs'
 import { IoMdBasket } from 'react-icons/io'
 import { showCartAtom } from '../../recoil/atoms/cartAtom'
 import { useSetRecoilState } from 'recoil'
 const BranchPage = () => {
+  const rowContainer = useRef()
   const params = useParams()
   const { branch_slug } = params
   const [branch_id, setBranchId] = useState('')
@@ -32,7 +33,6 @@ const BranchPage = () => {
   const [categories, setCategories] = useState([])
   const [category, setCategory] = useState({})
   const [menuItems, setMenuItems] = useState([])
-  const rowContainer = useRef()
 
   useEffect(() => {
     if (!branch_slug) return
@@ -98,10 +98,7 @@ const BranchPage = () => {
       <BranchHeader
         restaurantName={branch?.restaurant_id?.restaurant_name}
         branchName={branch?.branch_name}
-        homeUrl={`/branch/${branch_slug}`}
-        menuUrl={`/menu/${branch_slug}`}
-        aboutUsUrl={`/about/${branch_slug}`}
-        orderUrl={`/orders/${branch_slug}`}
+        branch_slug={branch_slug}
       />
       <div className="h-auto flex flex-col items-center justify-center ">
         <section
@@ -145,11 +142,24 @@ const BranchPage = () => {
                       </span>
                     </a>
                   ))}
+                  {branchAddress?.google_location && (
+                    <a href={branchAddress?.google_location}>
+                      <span className="flex items-center gap-2 justify-center bg-orange-100 px-4 py-1 rounded-full">
+                        <BsFillMapFill />
+                        <span className="text-base text-orange-500 font-semibold">
+                          Location
+                        </span>
+                      </span>
+                    </a>
+                  )}
                 </div>
               )}
             </p>
-
-            <p className="text-base text-textColor text-center md:text-left md:w-[80%]">
+            <p>
+              <span className="text-orange-600">Address: </span>
+              {branchAddress?.addressline}
+            </p>
+            <p className="text-base text-textColor md:text-left md:w-[80%]">
               {branch?.branch_aboutus && (
                 <ReadMoreReact
                   text={branch?.branch_aboutus}
@@ -173,7 +183,7 @@ const BranchPage = () => {
           <div className="hidden py-2 flex-1 md:flex items-center relative">
             <img
               src={HeroBg}
-              className=" ml-auto h-420 w-full lg:w-auto lg:h-650"
+              className=" ml-auto h-420 w-full lg:w-auto lg:h-650 opacity-60 object-contain"
               alt="hero-bg"
             />
 

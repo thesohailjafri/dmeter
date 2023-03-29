@@ -45,6 +45,7 @@ export default function SearchPage() {
                 addressline={r.restaurant_address.addressline}
                 city={r.restaurant_address.city}
                 state={r.restaurant_address.state}
+                country={r.restaurant_address.country}
               />
             ))}
           </div>

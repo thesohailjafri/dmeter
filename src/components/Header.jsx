@@ -106,12 +106,12 @@ const Header = ({ showSearch = true }) => {
           ) : (
             ''
           )}
-          <div className="flex items-center gap-8">
+          <div className="">
             <motion.ul
               initial={{ opacity: 0, x: 200 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 200 }}
-              className="flex items-center gap-8 lg:gap-16 xl:gap-24 "
+              className="flex items-center lg:gap-8 xl:gap-10"
             >
               {navMenuItem.map((i) => (
                 <Link to={i.url}>

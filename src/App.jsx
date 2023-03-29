@@ -12,6 +12,8 @@ import {
   HomePage,
   NotFoundPage,
   ResetPasswordPage,
+  RestaurantAboutUsPage,
+  RestaurantPage,
   RestaurantsPage,
   SearchPage,
   SigninPage,
@@ -44,6 +46,7 @@ const App = () => {
               <Route exact path="/about" element={<AboutUsPage />} />
               <Route exact path="/search" element={<SearchPage />} />
 
+              {/* auth routes */}
               <Route
                 exact
                 path="/restaurants"
@@ -54,7 +57,24 @@ const App = () => {
                 }
               />
 
-              {/* auth routes */}
+              <Route
+                exact
+                path="/restaurant/:restaurant_slug"
+                element={
+                  <AuthWrapper>
+                    <RestaurantPage />
+                  </AuthWrapper>
+                }
+              />
+              <Route
+                exact
+                path="/restaurant/about/:restaurant_slug"
+                element={
+                  <AuthWrapper>
+                    <RestaurantAboutUsPage />
+                  </AuthWrapper>
+                }
+              />
               <Route
                 path="/branch/:branch_slug"
                 element={
@@ -64,7 +84,7 @@ const App = () => {
                 }
               />
               <Route
-                path="/menu/:branch_slug"
+                path="/branch/menu/:branch_slug"
                 element={
                   <AuthWrapper>
                     <BranchMenuPage />
@@ -73,7 +93,7 @@ const App = () => {
               />
 
               <Route
-                path="/orders/:branch_slug"
+                path="/branch/orders/:branch_slug"
                 element={
                   <AuthWrapper>
                     <BranchOrdersPage />
@@ -81,7 +101,7 @@ const App = () => {
                 }
               />
               <Route
-                path="/about/:branch_slug"
+                path="/branch/about/:branch_slug"
                 element={
                   <AuthWrapper>
                     <BranchAboutUsPage />
