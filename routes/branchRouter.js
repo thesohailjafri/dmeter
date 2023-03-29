@@ -1,4 +1,5 @@
 const express = require('express')
+const branchRouter = express.Router()
 const {
   registerBranch,
   getBranches,
@@ -8,8 +9,6 @@ const {
 } = require('../controllers/branchController')
 const { authUserMiddleware } = require('../middlewares/authMiddleware')
 const positionCheckMiddleware = require('../middlewares/positionCheckMiddleware')
-
-const branchRouter = express.Router()
 
 branchRouter
   .route('/')

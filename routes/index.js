@@ -9,6 +9,7 @@ const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware')
 const { authUserMiddleware } = require('../middlewares/authMiddleware')
 const orderRouter = require('./orderRouter')
 const searchRouter = require('./searchRouter')
+const customerRouter = require('./customerRouter')
 const express = require('express'),
   path = require('path'),
   buildPath = path.normalize(
@@ -23,6 +24,7 @@ const apiRouter = (app) => {
   app.use('/api/order/', orderRouter)
   app.use('/api/branch/', branchRouter)
   app.use('/api/staff/', authUserMiddleware, staffRouter)
+  app.use('/api/customer/', customerRouter)
 
   // post m.w
   app.use(buildPathMiddleware)
