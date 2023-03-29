@@ -5,6 +5,7 @@ const { createTokenUser } = require('../helpers/jwt/generate')
 const { addAddress } = require('../helpers/utils/AddAddress')
 const { addUser } = require('../helpers/utils/AddUser')
 const shortid = require('shortid')
+const BranchModel = require('../models/BranchModel')
 shortid.characters(
   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@',
 )
@@ -68,6 +69,40 @@ const registerRestaurant = async (req, res) => {
   })
 }
 
+const getRestaurantUsingSlug = async (req, res) => {
+  const { slug: restaurant_slug } = req.params
+  if (!restaurant_slug) {
+    throw new error.BadRequestError('slug is required')
+  }
+  const restaurant = await RestaurantModel.findOne({
+    restaurant_slug,
+  }).populate('restaurant_address')
+  if (!restaurant) {
+    throw new error.NotFoundError('Restaurant not found')
+  }
+  const branches = await BranchModel.find({
+    restaurant_id: restaurant._id,
+  }).populate('branch_address')
+  res.status(StatusCodes.OK).json({
+    restaurant,
+    branches,
+  })
+}
+
+const getRestaurants = async (_, res) => {
+  const restaurants = await RestaurantModel.find().populate(
+    'restaurant_address',
+  )
+  if (!restaurants) {
+    throw new error.NotFoundError('Restaurant not found')
+  }
+
+  res.status(StatusCodes.OK).json({
+    restaurants,
+  })
+}
 module.exports = {
   registerRestaurant,
+  getRestaurantUsingSlug,
+  getRestaurants,
 }
