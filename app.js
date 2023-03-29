@@ -18,7 +18,20 @@ const port = process.env.PORT || 5000
 
 // npm middleware
 app.use(morgan('tiny'))
-app.use(helmet())
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: false,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        objectSrc: ['none'],
+        imgSrc: ["'self'", 'res.cloudinary.com', 'blob: data:'],
+        upgradeInsecureRequests: [],
+      },
+    },
+  }),
+)
 app.use(cors())
 app.use(xss())
 app.use(mongoSanitize())
