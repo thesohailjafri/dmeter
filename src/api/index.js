@@ -3,7 +3,12 @@ import { getMenuCategories, getMenu } from './menuApi'
 import { signinApi, signupApi, getMyselfApi } from './authApi'
 import { searchResturantAndBranchApi } from './searchApi'
 import { getRestaurantsApi, getRestaurantUsingSlugApi } from './restaurantApi'
-import { getCustomerCartApi, updateCustomerCartApi } from './customerApi'
+import {
+  getCustomerCartApi,
+  getCustomerOrderApi,
+  getCustomerOrdersApi,
+  updateCustomerCartApi,
+} from './customerApi'
 export {
   getBranchUsingSlugApi,
   getMenuCategories,
@@ -16,4 +21,6 @@ export {
   getRestaurantsApi,
   getCustomerCartApi,
   updateCustomerCartApi,
+  getCustomerOrderApi,
+  getCustomerOrdersApi,
 }

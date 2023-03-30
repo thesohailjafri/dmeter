@@ -53,7 +53,9 @@ const CartItem = ({ product, branch_id, checkoutElement = false }) => {
     >
       {/* name section */}
       <div className="flex flex-col gap-2">
-        <p className="text-base">{product_name}</p>
+        <p className="text-base">
+          {product_name}({quantity})
+        </p>
         <p
           className={classNames('text-md block font-semibold', {
             'text-orange-100': !checkoutElement,

@@ -24,6 +24,7 @@ import EmptyCart from '../../img/emptyCart.svg'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { isMobilePhone } from 'validator'
 import { Link } from 'react-router-dom'
+import { postCustomerOrderApi } from '../../api/customerApi'
 
 const orderTypes = ['Dine', 'Takeaway', 'Delivery', 'Pre-Order']
 const orderPaymentTypes = ['Cash', 'Online Transaction']
@@ -59,7 +60,8 @@ export default function BranchCheckoutPage() {
 
   const customerId = useRecoilValue(customerIdAtom)
   const [cart, setCart] = useRecoilState(cartAtom)
-  const [subtotal, setSubtotal] = useState(0)
+  const [sub_total, setSubtotal] = useState(0)
+  const [grand_total, setGrandtotal] = useState(0)
 
   const setIsOpenLoginPopUp = useSetRecoilState(isOpenLoginPopUpAtom)
 
@@ -70,6 +72,7 @@ export default function BranchCheckoutPage() {
     let _subtotal = 0
     cart.products.forEach((p) => (_subtotal += p.amount * p.quantity_count))
     setSubtotal(_subtotal)
+    setGrandtotal(_subtotal)
   }, [cart])
   useEffect(() => calculateTotal(), [calculateTotal])
 
@@ -150,12 +153,28 @@ export default function BranchCheckoutPage() {
                     return errors
                   }}
                   onSubmit={async (values, { setSubmitting, resetForm }) => {
-                    console.log({
+                    setSubmitting(true)
+                    const res = await postCustomerOrderApi({
                       ...values,
+                      branch_id,
                       customer_name,
                       customer_phone,
                       order_products: cart.products,
+                      sub_total,
+                      grand_total,
                     })
+                    if (res) {
+                      const cres = await updateCustomerCartApi('clearItems', {
+                        branch_id,
+                      })
+                      if (cres) {
+                        if (res.status === 201) {
+                          setCart(res.data)
+                        }
+                      }
+                      resetForm()
+                      setSubmitting(false)
+                    }
                   }}
                 >
                   {({ values, isSubmitting }) => (
@@ -384,7 +403,7 @@ export default function BranchCheckoutPage() {
                   <div className="w-full p-4 rounded-lg flex flex-col gap-4 bg-white">
                     <div className="w-full flex items-center justify-between ">
                       <p className="text-xl">Sub Total</p>
-                      <p className="text-xl font-semibold">₹{subtotal}</p>
+                      <p className="text-xl font-semibold">₹{sub_total}</p>
                     </div>
                     <div className="w-full flex items-center justify-between ">
                       <p className="text-xl">Delivery</p>
@@ -393,7 +412,7 @@ export default function BranchCheckoutPage() {
                   </div>
                   <div className="w-full p-4 rounded-lg  flex items-center justify-between gap-2 bg-white">
                     <p className="text-xl font-semibold">Total</p>
-                    <p className="text-xl font-bold">₹{subtotal + 25}</p>
+                    <p className="text-xl font-bold">₹{sub_total + 25}</p>
                   </div>
                 </div>
               </div>

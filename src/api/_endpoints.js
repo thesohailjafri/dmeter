@@ -31,6 +31,7 @@ const endpoints = {
   customer: {
     index: `${backend_api}/customer/`,
     cart: `${backend_api}/customer/cart/`,
+    order: `${backend_api}/customer/order/`,
   },
 }
 export default endpoints
