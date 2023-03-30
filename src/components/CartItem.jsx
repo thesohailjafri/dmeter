@@ -5,9 +5,10 @@ import { updateCustomerCartApi } from '../api'
 import { customerIdAtom } from '../recoil/atoms/customerAtom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { cartAtom } from '../recoil/atoms/cartAtom'
+import classNames from 'classnames'
 let items = []
 
-const CartItem = ({ product, branch_id }) => {
+const CartItem = ({ product, branch_id, checkoutElement = false }) => {
   const {
     product_id,
     product_name,
@@ -39,16 +40,37 @@ const CartItem = ({ product, branch_id }) => {
   }
 
   return (
-    <div className="w-full px-4 py-2 rounded-lg bg-orange-700 flex items-center justify-between gap-2">
+    <div
+      className={classNames(
+        'w-full px-4 py-2 rounded-lg  flex items-center justify-between gap-2',
+        {
+          'bg-orange-700': !checkoutElement,
+        },
+        {
+          'bg-white': checkoutElement,
+        },
+      )}
+    >
       {/* name section */}
       <div className="flex flex-col gap-2">
         <p className="text-base">{product_name}</p>
-        <p className="text-md block text-orange-100 font-semibold">₹{amount}</p>
+        <p
+          className={classNames('text-md block font-semibold', {
+            'text-orange-100': !checkoutElement,
+          })}
+        >
+          ₹{amount}
+        </p>
       </div>
 
       {/* button section */}
-      <div className="flex flex-col items-center gap-2 ">
-        <div className="group flex gap-2 ml-auto cursor-pointer">
+      <div
+        className={classNames('flex gap-2', {
+          'flex-col items-center ': !checkoutElement,
+          'items-end gap-4': checkoutElement,
+        })}
+      >
+        <div className="group flex gap-2 mt-1 cursor-pointer">
           <motion.button
             whileTap={{ scale: 0.75 }}
             onClick={() => updateItem('removeItem')}
@@ -56,7 +78,17 @@ const CartItem = ({ product, branch_id }) => {
             <BiMinus className=" " />
           </motion.button>
 
-          <p className="w-10 h-6 rounded-sm bg-orange-900  flex items-center justify-center">
+          <p
+            className={classNames(
+              'w-10 h-6 rounded flex items-center  justify-center',
+              {
+                'bg-orange-800': !checkoutElement,
+              },
+              {
+                'border-orange-100 border-1 border': checkoutElement,
+              },
+            )}
+          >
             {quantity_count}
           </p>
 
@@ -68,7 +100,11 @@ const CartItem = ({ product, branch_id }) => {
           </motion.button>
         </div>
         <div>
-          <p className="text-md block text-orange-100 font-semibold">
+          <p
+            className={classNames('text-md block font-semibold', {
+              'text-orange-100': !checkoutElement,
+            })}
+          >
             ₹{parseFloat(amount) * quantity_count}
           </p>
         </div>

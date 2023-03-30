@@ -150,29 +150,24 @@ const RestutantHeader = ({
                   Sign-In
                 </button>
               )}
+              {customerID && (
+                <>
+                  <Link to="/myorders">
+                    <li
+                      className={classNames(
+                        'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                      )}
+                    >
+                      My Orders
+                    </li>
+                  </Link>
+                  <button className="calltoaction-btn" onClick={handleLogout}>
+                    <MdLogout />
+                    Sign-Out
+                  </button>
+                </>
+              )}
             </motion.ul>
-
-            {customerID && (
-              <>
-                <div
-                  className="relative flex items-center justify-center"
-                  onClick={handleShowCart}
-                >
-                  <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
-                  {cartItems && cartItems.length > 0 && (
-                    <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
-                      <p className="text-xs text-white font-semibold">
-                        {cartItems.length}
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <button className="calltoaction-btn" onClick={handleLogout}>
-                  <MdLogout />
-                  Sign-Out
-                </button>
-              </>
-            )}
           </div>
         </div>
 

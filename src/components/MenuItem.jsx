@@ -86,7 +86,6 @@ export default function MenuItem({
                     className="cursor-pointer text-2xl bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-8 h-8 rounded m-0 text-white"
                     label="+"
                     disabled={loading}
-                    loading={loading}
                   />
                 </span>
               </div>
@@ -130,7 +129,6 @@ export default function MenuItem({
                         className="cursor-pointer text-2xl bg-gradient-to-br from-orange-400 to-orange-500 font-semibold w-8 h-8 rounded m-0 text-white"
                         label="+"
                         disabled={loading}
-                        loading={loading}
                       />
                     </span>
                   </div>

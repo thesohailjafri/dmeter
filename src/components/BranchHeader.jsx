@@ -51,11 +51,6 @@ const BranchHeader = ({
       url: `/branch/menu/${branch_slug}`,
     },
     {
-      title: 'Orders',
-      page: 'orders',
-      url: `/branch/orders/${branch_slug}`,
-    },
-    {
       title: 'About Us',
       page: 'about',
       url: `/branch/about/${branch_slug}`,
@@ -176,7 +171,7 @@ const BranchHeader = ({
                     onClick={handleShowCart}
                   >
                     <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer" />
-                    {cart.products && cart.products.length > 0 && (
+                    {cart?.products && cart.products.length > 0 && (
                       <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
                         <p className="text-xs text-white font-semibold">
                           {cart.products.length}
@@ -184,6 +179,15 @@ const BranchHeader = ({
                       </div>
                     )}
                   </div>
+                  <Link to="/myorders">
+                    <li
+                      className={classNames(
+                        'text-lg text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer',
+                      )}
+                    >
+                      My Orders
+                    </li>
+                  </Link>
                   <button className="calltoaction-btn" onClick={handleLogout}>
                     <MdLogout />
                     Sign-Out
@@ -276,7 +280,9 @@ const BranchHeader = ({
           </div>
         </div>
       </header>
-      <BranchCart branch_id={branch_id} />
+      {cart && cart?.branch_id && (
+        <BranchCart branch_id={branch_id} branch_slug={branch_slug} />
+      )}
     </>
   )
 }

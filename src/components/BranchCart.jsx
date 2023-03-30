@@ -13,8 +13,9 @@ import { customerIdAtom } from '../recoil/atoms/customerAtom'
 import { isOpenLoginPopUpAtom } from '../recoil/atoms/loginAtom'
 import { useCallback } from 'react'
 import { updateCustomerCartApi } from '../api'
+import { Link } from 'react-router-dom'
 
-const CartContainer = ({ branch_id }) => {
+const CartContainer = ({ branch_id, branch_slug }) => {
   const customerId = useRecoilValue(customerIdAtom)
   const user = false
   const [showCart, setShowCart] = useRecoilState(showCartAtom)
@@ -86,7 +87,7 @@ const CartContainer = ({ branch_id }) => {
           ) : cart?.products && cart?.products.length > 0 ? (
             <div className="w-full h-full bg-orange-900 text-white rounded-t-[2rem] flex flex-col">
               {/* cart Items section */}
-              <div className="w-full h-600 md:h-42 px-6 py-10 flex flex-col gap-3 overflow-y-scroll scrollbar-none">
+              <div className="w-full h-685 md:h-42 px-6 py-10 flex flex-col gap-3 overflow-y-scroll scrollbar-none">
                 {/* cart Item */}
                 {cart?.products &&
                   cart?.products.length > 0 &&
@@ -98,29 +99,21 @@ const CartContainer = ({ branch_id }) => {
               {/* cart total section */}
               <div className="w-full flex-1 bg-black bg-opacity-30 rounded-t-[2rem] flex flex-col items-center justify-evenly px-8 py-2">
                 <div className="w-full flex items-center justify-between">
-                  <p className=" text-lg">Sub Total</p>
-                  <p className=" text-lg"> ₹{subtotal}</p>
-                </div>
-                <div className="w-full flex items-center justify-between">
-                  <p className=" text-lg">Delivery</p>
-                  <p className=" text-lg"> ₹25</p>
-                </div>
-
-                <div className="w-full border-b border-gray-600 my-2"></div>
-
-                <div className="w-full flex items-center justify-between">
-                  <p className="text-gray-200 text-xl font-semibold">Total</p>
-                  <p className="text-gray-200 text-xl font-semibold">
-                    ₹{subtotal + 25}
+                  <p className="text-orange-50 text-xl font-semibold">
+                    Sub Total
+                  </p>
+                  <p className="text-orange-50 text-xl font-semibold">
+                    ₹{subtotal}
                   </p>
                 </div>
-
-                <motion.button
-                  whileTap={{ scale: 0.8 }}
-                  className="calltoaction-btn"
-                >
-                  Check Out
-                </motion.button>
+                <Link to={`/branch/checkout/${branch_slug}`}>
+                  <motion.button
+                    whileTap={{ scale: 0.8 }}
+                    className="calltoaction-btn"
+                  >
+                    Check Out
+                  </motion.button>
+                </Link>
               </div>
             </div>
           ) : (

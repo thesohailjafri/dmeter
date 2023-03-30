@@ -98,7 +98,7 @@ const BranchPage = () => {
       />
       <div className="h-auto flex flex-col items-center justify-center ">
         <section
-          className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full "
+          className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full "
           id="home"
         >
           <div className="py-2 flex-1 flex flex-col items-start justify-center gap-6">
@@ -176,7 +176,7 @@ const BranchPage = () => {
               Open Cart
             </button>
           </div>
-          <div className="hidden py-2 flex-1 md:flex items-center relative">
+          <div className="hidden py-2 flex-1 lg:flex items-center relative">
             <img
               src={HeroBg}
               className=" ml-auto h-420 w-full lg:w-auto lg:h-650 opacity-60 object-contain"
@@ -216,7 +216,7 @@ const BranchPage = () => {
                       category._id === _category._id
                         ? 'bg-cartNumBg'
                         : 'bg-card'
-                    } w-28 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg `}
+                    } min-w-210 h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg transition-all duration-150 ease-in-out`}
                     onClick={() => setCategory(_category)}
                   >
                     <div

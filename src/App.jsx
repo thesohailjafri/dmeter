@@ -6,10 +6,12 @@ import { SigninCardOverlay } from './components'
 import {
   AboutUsPage,
   BranchAboutUsPage,
+  BranchCheckoutPage,
   BranchMenuPage,
   BranchOrdersPage,
   BranchPage,
   HomePage,
+  MyOrdersPage,
   NotFoundPage,
   ResetPasswordPage,
   RestaurantAboutUsPage,
@@ -26,7 +28,7 @@ const App = () => {
     <AnimatePresence exitBeforeEnter>
       <SigninCardOverlay />
 
-      <div className="w-screen flex flex-col ">
+      <div className="w-screen ">
         <div className="container mx-auto">
           <main className="mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
             <Routes>
@@ -47,6 +49,15 @@ const App = () => {
               <Route exact path="/search" element={<SearchPage />} />
 
               {/* auth routes */}
+              <Route
+                exact
+                path="/myorders"
+                element={
+                  <AuthWrapper>
+                    <MyOrdersPage />
+                  </AuthWrapper>
+                }
+              />
               <Route
                 exact
                 path="/restaurants"
@@ -105,6 +116,14 @@ const App = () => {
                 element={
                   <AuthWrapper>
                     <BranchAboutUsPage />
+                  </AuthWrapper>
+                }
+              />
+              <Route
+                path="/branch/checkout/:branch_slug"
+                element={
+                  <AuthWrapper>
+                    <BranchCheckoutPage />
                   </AuthWrapper>
                 }
               />
