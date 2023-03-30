@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d4bbee62.css",
-    "main.js": "/static/js/main.3e589163.js",
+    "main.js": "/static/js/main.ae5d2061.js",
     "static/media/restaurant_orange_500_fade.png": "/static/media/restaurant_orange_500_fade.c538eee74ca1af79c3f9.png",
     "static/media/primeicons.svg": "/static/media/primeicons.e1441b135b3ca9ad643c.svg",
     "static/media/primeicons.eot": "/static/media/primeicons.d44157bdfa026dc877af.eot",
@@ -16,10 +16,10 @@
     "static/media/NotFound.svg": "/static/media/NotFound.4e90bb93460bfd8d9e2c86b42ef91a4a.svg",
     "index.html": "/index.html",
     "main.d4bbee62.css.map": "/static/css/main.d4bbee62.css.map",
-    "main.3e589163.js.map": "/static/js/main.3e589163.js.map"
+    "main.ae5d2061.js.map": "/static/js/main.ae5d2061.js.map"
   },
   "entrypoints": [
     "static/css/main.d4bbee62.css",
-    "static/js/main.3e589163.js"
+    "static/js/main.ae5d2061.js"
   ]
 }
