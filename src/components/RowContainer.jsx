@@ -33,7 +33,7 @@ const RowContainer = ({ flag, menuItems, scrollValue }) => {
               <img
                 src={
                   'https://res.cloudinary.com/dhvfvo2yb/image/upload/v1664997220/' +
-                  item?.thumbnail
+                  +item?.thumbnail
                 }
                 alt=""
                 className="rounded-lg overflow-hiddens"

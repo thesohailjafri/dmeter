@@ -1,6 +1,7 @@
 let hostname = window.location.hostname
-const localUrl = process.env.REACT_APP_LOCAL_SERVER
-const liveUrl = process.env.REACT_APP_LIVE_SERVER
+const localUrl = 'http://localhost:5000/'
+
+const liveUrl = '/'
 
 let _backend_api
 
