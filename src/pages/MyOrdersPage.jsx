@@ -77,22 +77,22 @@ export default function MyOrdersPage() {
         </ul>
         <div className="mt-auto">
           <hr className="my-2" />
-          <p className="flex justify-between mx-1">
+          <p className="flex gap-2 justify-between mx-1">
             <span>Subtotal</span>
             <span>₹{sub_total}</span>
           </p>
-          <p className="flex justify-between mx-1">
+          <p className="flex gap-2 justify-between mx-1">
             <span>Delivery</span>
             <span>₹{order_delivery_charges}</span>
           </p>
-          <p className="flex text-lg font-semibold justify-between mx-1">
+          <p className="flex gap-2 text-lg font-semibold justify-between mx-1">
             <span>Total</span>
             <span>₹{grand_total}</span>
           </p>
           <hr className="my-2" />
-          <p className="flex justify-between mx-1">
+          <p className="flex gap-2 justify-between mx-1">
             {createdAt && (
-              <span>Date: {new Date(createdAt).toLocaleDateString()}</span>
+              <span>Date: {new Date(createdAt).toLocaleString()}</span>
             )}
 
             <a href="" className="text-orange-600">
