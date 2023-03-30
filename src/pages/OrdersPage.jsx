@@ -138,7 +138,7 @@ export const OrdersPage = () => {
             };
             return p;
         });
-        const payload = { ...newRecord, branch_id, order_products, grand_total: newRecordGrandTotal };
+        const payload = { ...newRecord, branch_id, order_products, grand_total: newRecordGrandTotal, sub_total: newRecordSubTotal };
         console.log({ payload });
         const res = await postOrderManual(payload);
         if (res) {

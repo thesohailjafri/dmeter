@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const orderTypeOptionsAtom = atom({
     key: "orderTypeOptionsAtom",
-    default: ["In-House", "Takeaway", "Delivery", "Pre-Order", "Other"],
+    default: ["Dine", "Takeaway", "Delivery", "Pre-Order", "Other"],
 });
 
 export const orderSourceOptionsAtom = atom({

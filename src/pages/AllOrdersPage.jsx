@@ -9,7 +9,7 @@ export const AllOrdersPage = () => {
         const res = await getOrders({
             fields: `customer_name customer_phone 
 						order_type order_source order_note 
-						order_payment_source grand_total 
+						order_payment_source grand_total sub_total
 						order_status order_products order_delivery_charges`,
         });
         if (res) {

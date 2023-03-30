@@ -116,7 +116,7 @@ export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchR
                 <Column header="Products" field="" body={orderProductsBody} />
                 <Column header="Delivery" field="order_delivery_charges" body={(rd) => `₹${rd.order_delivery_charges}`} />
                 <Column header="Amount" field="grand_total" body={(rd) => `₹${rd.grand_total}`} />
-                <Column header="Action" field="grand_total" body={actionBody} />
+                <Column header="Action" body={actionBody} />
             </DataTable>
             <Dialog visible={false}></Dialog>
         </div>
