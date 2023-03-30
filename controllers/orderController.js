@@ -174,10 +174,26 @@ const getCustomerOrders = async (req, res) => {
   })
 }
 
+const updateOrder = async (req, res) => {
+  const { id } = req.params
+  if (!id) {
+    throw new error.BadRequestError('Id id required')
+  }
+  const { key, value } = req.body
+  let order = await OrderModel.findById(id)
+  order[key] = value
+  order = await order.save()
+  res.status(StatusCodes.OK).json({
+    msg: 'Order updated',
+    order,
+  })
+}
+
 module.exports = {
   postOrderManual,
   getOrders,
   postOrderCustomer,
   getCustomerOrders,
   getOrder,
+  updateOrder,
 }
