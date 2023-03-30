@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d4bbee62.css",
+    "main.js": "/static/js/main.ddd3a33e.js",
+    "static/media/restaurant_orange_500_fade.png": "/static/media/restaurant_orange_500_fade.c538eee74ca1af79c3f9.png",
+    "static/media/primeicons.svg": "/static/media/primeicons.e1441b135b3ca9ad643c.svg",
+    "static/media/primeicons.eot": "/static/media/primeicons.d44157bdfa026dc877af.eot",
+    "static/media/primeicons.woff": "/static/media/primeicons.10d3152104f2208ac82a.woff",
+    "static/media/primeicons.ttf": "/static/media/primeicons.ea5358601d0a3fd6670b.ttf",
+    "static/media/heroBg.png": "/static/media/heroBg.c43c4862422e70d88698.png",
+    "static/media/delivery.png": "/static/media/delivery.bf9130a0962fbe091abc.png",
+    "static/media/primeicons.woff2": "/static/media/primeicons.78172950b335ccdb94e2.woff2",
+    "static/media/avatar.png": "/static/media/avatar.68cdc4513e601d28a382.png",
+    "static/media/logo.png": "/static/media/logo.5a547061fb20e04873a2.png",
+    "static/media/emptyCart.svg": "/static/media/emptyCart.71ad17e692d71caa77c6c9351f84756b.svg",
+    "static/media/NotFound.svg": "/static/media/NotFound.4e90bb93460bfd8d9e2c86b42ef91a4a.svg",
+    "index.html": "/index.html",
+    "main.d4bbee62.css.map": "/static/css/main.d4bbee62.css.map",
+    "main.ddd3a33e.js.map": "/static/js/main.ddd3a33e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d4bbee62.css",
+    "static/js/main.ddd3a33e.js"
+  ]
+}
