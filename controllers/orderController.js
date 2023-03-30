@@ -20,6 +20,7 @@ const postOrderManual = async (req, res) => {
     send_notifications,
     order_payment_source,
     grand_total,
+    sub_total,
     order_status = 'Placed',
   } = req.body
   const { restaurant_id } = req.user
@@ -48,6 +49,7 @@ const postOrderManual = async (req, res) => {
     order_payment_source,
     order_products,
     grand_total,
+    sub_total,
     order_status,
     branch_id,
     restaurant_id,
@@ -58,6 +60,65 @@ const postOrderManual = async (req, res) => {
     branch_id,
     restaurant_id,
     record,
+  })
+}
+
+const postOrderCustomer = async (req, res) => {
+  let {
+    branch_id,
+    order_address,
+    order_city,
+    order_state,
+    order_country,
+    order_type,
+    order_source,
+    order_note,
+    order_delivery_charges,
+    customer_name,
+    customer_phone,
+    order_products,
+    send_notifications,
+    order_payment_source,
+    grand_total,
+    sub_total,
+    order_status = 'Placed',
+  } = req.body
+  const { _id: customer_id } = req.customer
+  if (!branch_id || !customer_id) {
+    throw new error.BadRequestError('branch_id and customer_id are required')
+  }
+  const branch = await BranchModel.findById(branch_id)
+  if (!branch) {
+    throw new error.BadRequestError(`Branch does not exist`)
+  }
+  const restaurant_id = branch.restaurant_id
+  const order = await OrderModel.create({
+    order_address,
+    order_city,
+    order_state,
+    order_country,
+    order_type,
+    order_source,
+    order_note,
+    order_delivery_charges,
+    customer_name,
+    customer_phone,
+    send_notifications,
+    order_payment_source,
+    order_products,
+    grand_total,
+    sub_total,
+    order_status,
+    branch_id,
+    restaurant_id,
+    customer_id,
+  })
+
+  res.status(StatusCodes.CREATED).json({
+    msg: 'Order Placed',
+    branch_id,
+    restaurant_id,
+    order,
   })
 }
 
@@ -84,4 +145,5 @@ const getOrders = async (req, res) => {
 module.exports = {
   postOrderManual,
   getOrders,
+  postOrderCustomer,
 }

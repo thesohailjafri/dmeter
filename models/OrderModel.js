@@ -47,8 +47,8 @@ const schema = new mongoose.Schema(
     },
     order_type: {
       type: String,
-      enum: ['In-House', 'Takeaway', 'Delivery', 'Pre-Order', 'Other'],
-      default: 'In-House',
+      enum: ['Dine', 'Takeaway', 'Delivery', 'Pre-Order', 'Other'],
+      default: 'Dine',
     },
     order_source: {
       type: String,
@@ -64,6 +64,10 @@ const schema = new mongoose.Schema(
       enum: ['Cash', 'Credit/Debit Card', 'Online Transaction', 'Other'],
       default: 'Cash',
       trim: true,
+    },
+    sub_total: {
+      type: Number,
+      required: true,
     },
     grand_total: {
       type: Number,
