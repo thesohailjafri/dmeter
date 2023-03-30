@@ -3,7 +3,7 @@ import { registerBranchApi, getBranchesApi, getBranchApi, getBranchMenuitemApi }
 import { registerMenuitemApi, getMenu, getMenuitem, postMenuCategory, getMenuCategories, deleteMenuitem, deleteMenuCategory } from "./menuApi";
 import { registerRetaurantApi } from "./restaurantApi";
 import { registerStaffApi, getBranchStaffApi, getAllStaffMembers, deleteStaffMember } from "./staffApi";
-import { postOrderManual, getOrders, getOrder } from "./orderApi";
+import { postOrderManual, getOrders, getOrder, updateOrder } from "./orderApi";
 export {
     deleteStaffMember,
     deleteMenuCategory,
@@ -26,4 +26,5 @@ export {
     postOrderManual,
     getOrders,
     getOrder,
+    updateOrder,
 };

@@ -24,3 +24,11 @@ export const getOrder = async (id, query) => {
         return error.response;
     }
 };
+
+export const updateOrder = async (id, payload) => {
+    try {
+        return await axios.patch(endpoints.order.index + id, payload);
+    } catch (error) {
+        return error.response;
+    }
+};

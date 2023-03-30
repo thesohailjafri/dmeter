@@ -5,13 +5,28 @@ import { userPositionAtom } from "../../recoil/atoms/userAtom";
 import { orderStatusAllOptionsAtom, orderStatusCookOptionsAtom, orderStatusStaffOptionsAtom } from "../../recoil/atoms/orderAtom";
 import { useRecoilValue } from "recoil";
 import OrderDialog from "../OrderDialog";
+import { deleteMenuitem, updateOrder } from "../../api";
 export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
     const userPosition = useRecoilValue(userPositionAtom);
     const orderStatusAllOptions = useRecoilValue(orderStatusAllOptionsAtom);
     const orderStatusStaffOptions = useRecoilValue(orderStatusStaffOptionsAtom);
     const orderStatusCookOptions = useRecoilValue(orderStatusCookOptionsAtom);
     const [orderStatusOptions, setOrderStatusOptions] = useState([]);
-
+    const handleUpdateOrder = async (id, target, value) => {
+        const res = await updateOrder(id, { key: target, value });
+        if (res) {
+            if (res.status === 200) {
+                setRecords((ps) =>
+                    [...ps].map((o) => {
+                        if (o._id === id) {
+                            return res.data.order;
+                        }
+                        return o;
+                    })
+                );
+            }
+        }
+    };
     useEffect(() => {
         if (["manager", "owner"].includes(userPosition)) {
             setOrderStatusOptions(orderStatusAllOptions);
@@ -30,20 +45,20 @@ export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchR
     const orderStatusBody = (rd) => {
         return (
             <div>
-                <Dropdown className="w-full" options={orderStatusOptions} value={rd.order_status} />
+                <Dropdown className="w-full" options={orderStatusOptions} value={rd.order_status} onChange={(e) => handleUpdateOrder(rd._id, "order_status", e.value)} />
             </div>
         );
     };
 
     const handleRecordDelete = async (id) => {
         setDeleteLoader(true);
-        // const res = await deleteMenuitem(id);
-        // if (res) {
-        // 		setDeleteLoader(false);
-        // 		if (res.status === 200) {
-        // 				setRecords((ps) => [...ps].filter((r) => r._id !== id));
-        // 		}
-        // }
+        const res = await deleteMenuitem(id);
+        if (res) {
+            setDeleteLoader(false);
+            if (res.status === 200) {
+                setRecords((ps) => [...ps].filter((r) => r._id !== id));
+            }
+        }
     };
     const deleteRecordConfirm = (event, id) => {
         confirmPopup({
@@ -90,6 +105,7 @@ export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchR
             </div>
         );
     };
+
     return (
         <div>
             {/* <OrderDialog /> */}
