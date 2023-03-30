@@ -16,3 +16,11 @@ export const getOrders = async (payload) => {
         return error.response;
     }
 };
+
+export const getOrder = async (id, query) => {
+    try {
+        return await axios.get(endpoints.order.index + id, { params: query });
+    } catch (error) {
+        return error.response;
+    }
+};

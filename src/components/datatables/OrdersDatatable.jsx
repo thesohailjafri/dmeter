@@ -4,6 +4,7 @@ import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { userPositionAtom } from "../../recoil/atoms/userAtom";
 import { orderStatusAllOptionsAtom, orderStatusCookOptionsAtom, orderStatusStaffOptionsAtom } from "../../recoil/atoms/orderAtom";
 import { useRecoilValue } from "recoil";
+import OrderDialog from "../OrderDialog";
 export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchRecords }) => {
     const userPosition = useRecoilValue(userPositionAtom);
     const orderStatusAllOptions = useRecoilValue(orderStatusAllOptionsAtom);
@@ -91,6 +92,8 @@ export const OrdersDatatable = ({ records, setRecords, allRecords = true, fetchR
     };
     return (
         <div>
+            {/* <OrderDialog /> */}
+
             <ConfirmPopup />
             <DataTable
                 ref={dt}
