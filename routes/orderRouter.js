@@ -7,5 +7,5 @@ orderRouter
   .route('/')
   .post(authUserMiddleware, postOrderManual)
   .get(authUserMiddleware, getOrders)
-
+orderRouter.route('/order:id').get(authUserMiddleware, getOrders)
 module.exports = orderRouter

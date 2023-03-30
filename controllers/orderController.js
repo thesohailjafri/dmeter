@@ -63,6 +63,37 @@ const postOrderManual = async (req, res) => {
   })
 }
 
+const getOrders = async (req, res) => {
+  let { fields, branch_id } = req.query
+  const { restaurant_id } = req.user
+  if (!restaurant_id) {
+    throw new error.BadRequestError('Restaurant id is requried')
+  }
+  const filter = {}
+  if (restaurant_id) filter.restaurant_id = restaurant_id
+  if (branch_id) filter.branch_id = branch_id
+
+  const records = await OrderModel.find(filter)
+    .select(fields)
+    .populate('branch_id')
+    .sort('-updatedAt')
+
+  res.status(StatusCodes.OK).json({
+    records,
+  })
+}
+
+const getOrder = async (req, res) => {
+  const { id } = req.params
+  if (!id) {
+    throw new error.BadRequestError('Id id required')
+  }
+  const order = await OrderModel.findById(id)
+  res.status(StatusCodes.OK).json({
+    order,
+  })
+}
+
 const postOrderCustomer = async (req, res) => {
   let {
     branch_id,
@@ -71,7 +102,7 @@ const postOrderCustomer = async (req, res) => {
     order_state,
     order_country,
     order_type,
-    order_source,
+    order_source = 'Org-Site',
     order_note,
     order_delivery_charges,
     customer_name,
@@ -122,19 +153,20 @@ const postOrderCustomer = async (req, res) => {
   })
 }
 
-const getOrders = async (req, res) => {
-  let { fields, branch_id } = req.query
-  const { restaurant_id } = req.user
-  if (!restaurant_id) {
-    throw new error.BadRequestError('Restaurant id is requried')
+const getCustomerOrders = async (req, res) => {
+  let { fields } = req.query
+  const { _id: customer_id } = req.customer
+  if (!customer_id) {
+    throw new error.BadRequestError('Customer id is requried')
   }
-  const filter = {}
-  if (restaurant_id) filter.restaurant_id = restaurant_id
-  if (branch_id) filter.branch_id = branch_id
+  const filter = {
+    customer_id,
+  }
 
   const records = await OrderModel.find(filter)
     .select(fields)
     .populate('branch_id')
+    .populate('restaurant_id')
     .sort('-updatedAt')
 
   res.status(StatusCodes.OK).json({
@@ -146,4 +178,6 @@ module.exports = {
   postOrderManual,
   getOrders,
   postOrderCustomer,
+  getCustomerOrders,
+  getOrder,
 }

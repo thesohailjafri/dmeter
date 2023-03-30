@@ -113,6 +113,7 @@ const schema = new mongoose.Schema(
     order_delivery_charges: {
       type: Number,
       trim: true,
+      default: 0,
     },
     send_notifications: {
       type: Boolean,
@@ -120,7 +121,7 @@ const schema = new mongoose.Schema(
     },
     customer_id: {
       type: mongoose.Schema.ObjectId,
-      ref: 'customer_id',
+      ref: 'customer',
     },
     restaurant_id: {
       type: mongoose.Schema.ObjectId,
